@@ -235,6 +235,143 @@ void afficher_ennemi ( SDL_Surface *car1, SDL_Surface *car2, SDL_Surface *fenetr
      SDL_BlitSurface(car2, NULL, fenetre, &t_ennemis[5]);
      SDL_BlitSurface(car2, NULL, fenetre, &t_ennemis[6]);
 }
+int arduinoReadData(char *c)
+{
+    char chemin[]="/dev/ttyACM0";
+    FILE*f;
+    f=fopen(chemin,"r");
+    if(f == NULL)
+        return(-1);
+    else
+        fscanf(f,"%c",c);
+    
+    fclose(f);
+    return(0);
+}
+int arduinoWriteData(int k)
+{
+    char chemin[]="/dev/ttyACM0";
+    FILE*f;
+
+    f=fopen(chemin,"w");
+    if(f == NULL)
+        return(-1);
+
+    fprintf(f,"%d\n",k);
+    fclose(f);
+
+    return(0);
+}
+void mvt_arduino (SDL_Rect *bg, SDL_Surface *imageDeFondCollision, SDL_Rect *positionpers, int *mouvement, SDL_Rect *pospers, SDL_Surface **image)
+{
+  char a;
+  arduinoReadData(&a);
+  if(strcmp(&a,"r")==0)
+                  { 
+                    pospers->x=-bg->x+positionpers->x;
+                    pospers->y=-bg->y+positionpers->y;
+                    if (!detecter_collision_background (imageDeFondCollision, *pospers))
+                    {
+                      if(detecter_Pin(imageDeFondCollision, *pospers))
+                      {
+                        //entrer_reunion(*fenetre);
+                        printf("1");
+                      }
+                    *image=anim_right(mouvement);
+                    (*mouvement)++;
+                    bg->x -= 3;
+                    bg->y +=(-1/9)*bg->x+2;
+                    SDL_Delay(40);
+                    
+                  }
+                    else
+                    {
+                      bg->x+=15;
+                      bg->y-=15;
+                    }
+                    if(bg->x <-7000)
+                      bg->x+=2;
+                    
+                  }
+                  if(strcmp(&a,"l")==0)
+                  { 
+                    pospers->x=-bg->x+positionpers->x;
+                    pospers->y=-bg->y+positionpers->y;
+                    if (!detecter_collision_background (imageDeFondCollision, *pospers))
+                    {
+                      if(detecter_Pin(imageDeFondCollision, *pospers))
+                      {
+                        //entrer_reunion(*fenetre);
+                        printf("1");
+                      }
+                    *image=anim_left(mouvement);
+                    (*mouvement)++;
+                    bg->x += 3;
+                    bg->y -=(-1/9)*bg->x+2;
+                    SDL_Delay(40);
+                    }
+                    else
+                    {
+                      bg->x-=15;
+                      bg->y+=15;
+                    }
+                    if(bg->x>0)
+                      bg->x-=2;
+                  }
+                  if(strcmp(&a,"u")==0)
+                  { 
+                    pospers->x=-bg->x+positionpers->x;
+                    pospers->y=-bg->y+positionpers->y;
+                    if (!detecter_collision_background (imageDeFondCollision, *pospers))
+                    {
+                      if(detecter_Pin(imageDeFondCollision, *pospers))
+                      {
+                        //entrer_reunion(*fenetre);
+                        printf("1");
+                      }
+                    *image=anim_up(mouvement);
+                    (*mouvement)++;
+                    bg->x += 3;
+                    bg->y +=(-1/9)*bg->x+2;
+                    SDL_Delay(40);
+                  }
+                    else
+                    {
+                      bg->x-=15;
+                      bg->y-=15;
+                    }
+                    if(bg->y>0)
+                      bg->y-=2;
+                  
+                  }
+                  if(strcmp(&a,"d")==0)
+                  { 
+                    pospers->x=-bg->x+positionpers->x;
+                    pospers->y=-bg->y+positionpers->y;
+                    if (!detecter_collision_background (imageDeFondCollision, *pospers))
+                    {
+                      if(detecter_Pin(imageDeFondCollision, *pospers))
+                      {
+                        //entrer_reunion(*fenetre);
+                        printf("1");
+                      }
+                    *image=anim_down(mouvement);
+                    (*mouvement)++;
+                    bg->x -= 3;
+                    bg->y -=(-1/9)*bg->x+2;
+                       SDL_Delay(40);
+                  }
+                    else
+                    {
+                      bg->x+=15;
+                      bg->y+=15;
+                    }
+                    if(bg->y<-5000)
+                      bg->y+=2;
+                  }
+
+}
+
 
 void mvt_clavier (SDLKey bouton, SDL_Rect *bg, SDL_Surface *imageDeFondCollision, SDL_Rect *positionpers, int *mouvement, SDL_Rect *pospers, SDL_Surface **image)
 {
@@ -398,6 +535,7 @@ int main( int argc, char* args[] )
              case SDL_KEYDOWN :
              {
               mvt_clavier (event.key.keysym.sym, &bg,imageDeFondCollision,&positionpers,&mouvement,&pospers, &image);
+              mvt_arduino (&bg,imageDeFondCollision,&positionpers,&mouvement,&pospers, &image);
         }
       }
         apply_surface( bg.x, bg.y, background, fenetre );
