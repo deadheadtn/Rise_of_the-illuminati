@@ -214,6 +214,17 @@ if (pospers->x < X)
  //}
 }
 
+void afficherpin(SDL_Surface* destination)
+{
+  SDL_Surface *pin;
+  SDL_Rect pospin;
+  pin=IMG_Load("entities/pins/pin1.png"); 
+  pospin.x= -3091;
+  pospin.y= -3597;
+  SDL_BlitSurface(pin, NULL, destination, &pospin);
+}
+
+
 void afficher_ennemi ( SDL_Surface *car1, SDL_Surface *car2, SDL_Surface *fenetre, SDL_Rect t_ennemis[] )
 {
 
@@ -228,7 +239,7 @@ void afficher_ennemi ( SDL_Surface *car1, SDL_Surface *car2, SDL_Surface *fenetr
 
 int main( int argc, char* args[] )
 {
-    int quit = 0,mouvement=0,x=0,m;
+    int quit = 0,mouvement=0,m;
     SDL_Rect positionpers,positiontexte,pospers;
     positionpers.x=638;
     positionpers.y=338;
@@ -281,7 +292,7 @@ int main( int argc, char* args[] )
                     mouvement++;
                     bgX -= 3;
                     bgY +=(-1/9)*bgX+2;
-                    SDL_Delay(50);
+                    SDL_Delay(40);
                     
                   }
                     else
@@ -309,7 +320,7 @@ int main( int argc, char* args[] )
                     mouvement++;
                     bgX += 3;
                     bgY -=(-1/9)*bgX+2;
-                    SDL_Delay(50);
+                    SDL_Delay(40);
                     }
                     else
                     {
@@ -318,7 +329,6 @@ int main( int argc, char* args[] )
                     }
                     if(bgX>0)
                       bgX-=2;
-                  
                     break;
                   }
                   case SDLK_UP:
@@ -336,7 +346,7 @@ int main( int argc, char* args[] )
                     mouvement++;
                     bgX += 3;
                     bgY +=(-1/9)*bgX+2;
-                    SDL_Delay(50);
+                    SDL_Delay(40);
                   }
                     else
                     {
@@ -363,7 +373,7 @@ int main( int argc, char* args[] )
                     mouvement++;
                     bgX -= 3;
                     bgY -=(-1/9)*bgX+2;
-                       SDL_Delay(50);
+                       SDL_Delay(40);
                   }
                     else
                     {
@@ -388,6 +398,7 @@ int main( int argc, char* args[] )
         apply_surface( positionpers.x, positionpers.y, image, fenetre );
         SDL_BlitSurface(texte, NULL, fenetre, &positiontexte);
         pershud(score);
+        //afficherpin(fenetre);
        // afficherscore(score);
         if( SDL_Flip( fenetre ) == -1 )
             return 1;
