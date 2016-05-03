@@ -227,7 +227,6 @@ void afficherpin(SDL_Surface* destination)
 
 void afficher_ennemi ( SDL_Surface *car1, SDL_Surface *car2, SDL_Surface *fenetre, SDL_Rect t_ennemis[] )
 {
-
      SDL_BlitSurface(car1, NULL, fenetre, &t_ennemis[0]);
      SDL_BlitSurface(car1, NULL, fenetre, &t_ennemis[1]);
      SDL_BlitSurface(car1, NULL, fenetre, &t_ennemis[2]);
@@ -237,16 +236,139 @@ void afficher_ennemi ( SDL_Surface *car1, SDL_Surface *car2, SDL_Surface *fenetr
      SDL_BlitSurface(car2, NULL, fenetre, &t_ennemis[6]);
 }
 
+void mvt_clavier (SDLKey bouton, SDL_Rect *bg, SDL_Surface *imageDeFondCollision, SDL_Rect *positionpers, int *mouvement, SDL_Rect *pospers, SDL_Surface **image)
+{
+   switch(bouton)
+                {
+                  case SDLK_RIGHT:
+                  { 
+                    pospers->x=-bg->x+positionpers->x;
+                    pospers->y=-bg->y+positionpers->y;
+                    if (!detecter_collision_background (imageDeFondCollision, *pospers))
+                    {
+                      if(detecter_Pin(imageDeFondCollision, *pospers))
+                      {
+                        //entrer_reunion(*fenetre);
+                        printf("1");
+                      }
+                    *image=anim_right(mouvement);
+                    (*mouvement)++;
+                    bg->x -= 3;
+                    bg->y +=(-1/9)*bg->x+2;
+                    SDL_Delay(40);
+                    
+                  }
+                    else
+                    {
+                      bg->x+=15;
+                      bg->y-=15;
+                    }
+                    if(bg->x <-7000)
+                      bg->x+=2;
+                    
+                  }
+                  break;
+                  case SDLK_LEFT:
+                  { 
+                    pospers->x=-bg->x+positionpers->x;
+                    pospers->y=-bg->y+positionpers->y;
+                    if (!detecter_collision_background (imageDeFondCollision, *pospers))
+                    {
+                      if(detecter_Pin(imageDeFondCollision, *pospers))
+                      {
+                        //entrer_reunion(*fenetre);
+                        printf("1");
+                      }
+                    *image=anim_left(mouvement);
+                    (*mouvement)++;
+                    bg->x += 3;
+                    bg->y -=(-1/9)*bg->x+2;
+                    SDL_Delay(40);
+                    }
+                    else
+                    {
+                      bg->x-=15;
+                      bg->y+=15;
+                    }
+                    if(bg->x>0)
+                      bg->x-=2;
+                    break;
+                  }
+                  case SDLK_UP:
+                  { 
+                    pospers->x=-bg->x+positionpers->x;
+                    pospers->y=-bg->y+positionpers->y;
+                    if (!detecter_collision_background (imageDeFondCollision, *pospers))
+                    {
+                      if(detecter_Pin(imageDeFondCollision, *pospers))
+                      {
+                        //entrer_reunion(*fenetre);
+                        printf("1");
+                      }
+                    *image=anim_up(mouvement);
+                    (*mouvement)++;
+                    bg->x += 3;
+                    bg->y +=(-1/9)*bg->x+2;
+                    SDL_Delay(40);
+                  }
+                    else
+                    {
+                      bg->x-=15;
+                      bg->y-=15;
+                    }
+                    if(bg->y>0)
+                      bg->y-=2;
+                  
+                  }
+                  break;
+                  case SDLK_DOWN:
+                  { 
+                    pospers->x=-bg->x+positionpers->x;
+                    pospers->y=-bg->y+positionpers->y;
+                    if (!detecter_collision_background (imageDeFondCollision, *pospers))
+                    {
+                      if(detecter_Pin(imageDeFondCollision, *pospers))
+                      {
+                        //entrer_reunion(*fenetre);
+                        printf("1");
+                      }
+                    *image=anim_down(mouvement);
+                    (*mouvement)++;
+                    bg->x -= 3;
+                    bg->y -=(-1/9)*bg->x+2;
+                       SDL_Delay(40);
+                  }
+                    else
+                    {
+                      bg->x+=15;
+                      bg->y+=15;
+                    }
+                    if(bg->y<-5000)
+                      bg->y+=2;
+                  }
+                  break;
+
+                }
+              // case SDL_MOUSEBUTTONUP :
+              // X=event.button.x;
+              // Y=event.button.y;
+              // sprintf(ch,"%d %d",pospers.x,pospers.y);
+              // texte = TTF_RenderText_Blended(police, ch, noir);
+              //mouvement_souris(X,Y,&pospers,imageDeFondCollision);
+             }
+
 int main( int argc, char* args[] )
 {
     int quit = 0,mouvement=0,m;
-    SDL_Rect positionpers,positiontexte,pospers;
+    SDL_Rect positionpers,positiontexte,pospers,bg;
     positionpers.x=638;
     positionpers.y=338;
     positiontexte.x=0;
     positiontexte.y=0;
     int score=300;
     int bgX = -2500, bgY = -3350;
+    bg.x=bgX;
+    bg.y=bgY;
     SDL_Event event;
     SDL_Surface *image=NULL,*texte=NULL;
     TTF_Font *police = NULL;
@@ -270,131 +392,15 @@ int main( int argc, char* args[] )
      SDL_PollEvent(&event);
         switch (event.type)
         {
-          
+                      
             case SDL_QUIT : 
                quit=1; break;
              case SDL_KEYDOWN :
              {
-              switch(event.key.keysym.sym)
-                {
-                  case SDLK_RIGHT:
-                  { 
-                    pospers.x=-bgX+positionpers.x;
-                    pospers.y=-bgY+positionpers.y;
-                    if (!detecter_collision_background (imageDeFondCollision, pospers))
-                    {
-                      if(detecter_Pin(imageDeFondCollision, pospers))
-                      {
-                        //entrer_reunion(*fenetre);
-                        printf("1");
-                      }
-                    image=anim_right(&mouvement);
-                    mouvement++;
-                    bgX -= 3;
-                    bgY +=(-1/9)*bgX+2;
-                    SDL_Delay(40);
-                    
-                  }
-                    else
-                    {
-                      bgX+=10;
-                      bgY-=10;
-                    }
-                    if(bgX<-7000)
-                      bgX+=2;
-                    
-                  }
-                  break;
-                  case SDLK_LEFT:
-                  { 
-                    pospers.x=-bgX+positionpers.x;
-                    pospers.y=-bgY+positionpers.y;
-                    if (!detecter_collision_background (imageDeFondCollision, pospers))
-                    {
-                      if(detecter_Pin(imageDeFondCollision, pospers))
-                      {
-                        //entrer_reunion(*fenetre);
-                        printf("1");
-                      }
-                    image=anim_left(&mouvement);
-                    mouvement++;
-                    bgX += 3;
-                    bgY -=(-1/9)*bgX+2;
-                    SDL_Delay(40);
-                    }
-                    else
-                    {
-                      bgX-=10;
-                      bgY+=10;
-                    }
-                    if(bgX>0)
-                      bgX-=2;
-                    break;
-                  }
-                  case SDLK_UP:
-                  { 
-                    pospers.x=-bgX+positionpers.x;
-                    pospers.y=-bgY+positionpers.y;
-                    if (!detecter_collision_background (imageDeFondCollision, pospers))
-                    {
-                      if(detecter_Pin(imageDeFondCollision, pospers))
-                      {
-                        //entrer_reunion(*fenetre);
-                        printf("1");
-                      }
-                    image=anim_up(&mouvement);
-                    mouvement++;
-                    bgX += 3;
-                    bgY +=(-1/9)*bgX+2;
-                    SDL_Delay(40);
-                  }
-                    else
-                    {
-                      bgX-=10;
-                      bgY-=10;
-                    }
-                    if(bgY>0)
-                      bgY-=2;
-                  
-                  }
-                  break;
-                  case SDLK_DOWN:
-                  { 
-                    pospers.x=-bgX+positionpers.x;
-                    pospers.y=-bgY+positionpers.y;
-                    if (!detecter_collision_background (imageDeFondCollision, pospers))
-                    {
-                      if(detecter_Pin(imageDeFondCollision, pospers))
-                      {
-                        //entrer_reunion(*fenetre);
-                        printf("1");
-                      }
-                    image=anim_down(&mouvement);
-                    mouvement++;
-                    bgX -= 3;
-                    bgY -=(-1/9)*bgX+2;
-                       SDL_Delay(40);
-                  }
-                    else
-                    {
-                      bgX+=10;
-                      bgY+=10;
-                    }
-                    if(bgY<-5000)
-                      bgY+=2;
-                  }
-                  break;
-
-                }
-              // case SDL_MOUSEBUTTONUP :
-              // X=event.button.x;
-              // Y=event.button.y;
-              // sprintf(ch,"%d %d",pospers.x,pospers.y);
-              // texte = TTF_RenderText_Blended(police, ch, noir);
-              //mouvement_souris(X,Y,&pospers,imageDeFondCollision);
-             }
+              mvt_clavier (event.key.keysym.sym, &bg,imageDeFondCollision,&positionpers,&mouvement,&pospers, &image);
         }
-        apply_surface( bgX, bgY, background, fenetre );
+      }
+        apply_surface( bg.x, bg.y, background, fenetre );
         apply_surface( positionpers.x, positionpers.y, image, fenetre );
         SDL_BlitSurface(texte, NULL, fenetre, &positiontexte);
         pershud(score);
