@@ -272,6 +272,11 @@ int main( int argc, char* args[] )
                     pospers.y=-bgY+positionpers.y;
                     if (!detecter_collision_background (imageDeFondCollision, pospers))
                     {
+                      if(detecter_Pin(imageDeFondCollision, pospers))
+                      {
+                        //entrer_reunion(*fenetre);
+                        printf("1");
+                      }
                     image=anim_right(&mouvement);
                     mouvement++;
                     bgX -= 3;
@@ -295,6 +300,11 @@ int main( int argc, char* args[] )
                     pospers.y=-bgY+positionpers.y;
                     if (!detecter_collision_background (imageDeFondCollision, pospers))
                     {
+                      if(detecter_Pin(imageDeFondCollision, pospers))
+                      {
+                        //entrer_reunion(*fenetre);
+                        printf("1");
+                      }
                     image=anim_left(&mouvement);
                     mouvement++;
                     bgX += 3;
@@ -317,6 +327,11 @@ int main( int argc, char* args[] )
                     pospers.y=-bgY+positionpers.y;
                     if (!detecter_collision_background (imageDeFondCollision, pospers))
                     {
+                      if(detecter_Pin(imageDeFondCollision, pospers))
+                      {
+                        //entrer_reunion(*fenetre);
+                        printf("1");
+                      }
                     image=anim_up(&mouvement);
                     mouvement++;
                     bgX += 3;
@@ -339,6 +354,11 @@ int main( int argc, char* args[] )
                     pospers.y=-bgY+positionpers.y;
                     if (!detecter_collision_background (imageDeFondCollision, pospers))
                     {
+                      if(detecter_Pin(imageDeFondCollision, pospers))
+                      {
+                        //entrer_reunion(*fenetre);
+                        printf("1");
+                      }
                     image=anim_down(&mouvement);
                     mouvement++;
                     bgX -= 3;
