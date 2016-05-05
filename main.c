@@ -4,7 +4,6 @@
 #include <string.h>
 #include <SDL/SDL_ttf.h>
 #include <time.h>
-
 const int fenetre_WIDTH = 1300;
 const int fenetre_HEIGHT = 700;
 const int fenetre_BPP = 32;
@@ -486,12 +485,6 @@ void mvt_clavier (SDLKey bouton, SDL_Rect *bg, SDL_Surface *imageDeFondCollision
                   break;
 
                 }
-              // case SDL_MOUSEBUTTONUP :
-              // X=event.button.x;
-              // Y=event.button.y;
-              // sprintf(ch,"%d %d",pospers.x,pospers.y);
-              // texte = TTF_RenderText_Blended(police, ch, noir);
-              //mouvement_souris(X,Y,&pospers,imageDeFondCollision);
              }
 
 int main( int argc, char* args[] )
@@ -507,6 +500,7 @@ int main( int argc, char* args[] )
     bg.x=bgX;
     bg.y=bgY;
     SDL_Event event;
+    int bbb;
     SDL_Surface *image=NULL,*texte=NULL;
     TTF_Font *police = NULL;
     SDL_Color noir = {0, 0, 0};
@@ -514,7 +508,7 @@ int main( int argc, char* args[] )
     police = TTF_OpenFont("western.ttf", 32);
     texte = TTF_RenderText_Blended(police, "", noir);
     char ch[10];
-    
+    int bbb;
     if( init() == 0 )
     {
         return 1;
