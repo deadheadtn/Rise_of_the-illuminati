@@ -11,6 +11,233 @@ const int FRAMES_PER_SECOND = 50;
 SDL_Surface *background = NULL,*imageDeFondCollision=NULL;
 SDL_Surface *fenetre = NULL;
 SDL_Event event;
+
+
+void Smain (int *cond)
+{ 
+
+int ok = 1,buttonpos=0,nb_press_b1=0, nb_press_b2=0, nb_press_b3=0;
+
+
+
+SDL_Surface *fenetre = NULL, *imageDeFond = NULL, *bouton1 = NULL, *bouton2 = NULL, *bouton3 = NULL;
+SDL_Rect positionFond, positionBouton1, positionBouton2, positionBouton3, positionTexte;
+positionFond.x = 0;
+    positionFond.y = 0;
+    positionBouton1.x = 530;
+    positionBouton1.y = 400;
+    positionBouton2.x = 530;
+    positionBouton2.y = 500;
+    positionBouton3.x = 530;
+    positionBouton3.y = 600;
+    positionTexte.x= 500;
+    positionTexte.y= 300;
+    SDL_Init(SDL_INIT_VIDEO);
+    SDL_EnableKeyRepeat (300,300);
+ fenetre = SDL_SetVideoMode(1300,900, 32, SDL_HWSURFACE | SDL_DOUBLEBUF);
+ imageDeFond = IMG_Load("Menu/Menu/fond.bmp");
+    bouton1 = IMG_Load("Menu/Menu/bouton1.png");
+    bouton2 = IMG_Load("Menu/Menu/bouton2.png");
+    bouton3 = IMG_Load("Menu/Menu/bouton3.png");
+
+while (ok)
+    { SDL_WaitEvent(&event);
+        switch (event.type)
+        {
+          case SDL_QUIT : 
+              {    ok=0;
+               break;
+               }
+        case SDL_KEYDOWN:
+            {
+              switch(event.key.keysym.sym)
+                {
+                    
+                   case SDLK_RETURN :
+                    {
+                      if(buttonpos==1)
+                         { 
+                          *cond=1;
+                         ok=0;
+                          
+                          
+                         }
+                      if(buttonpos==2)
+                          { 
+                           *cond=2;
+                           ok=0;
+                         }
+                      if(buttonpos==3)
+                          { 
+                         *cond=3;
+                         ok=0;
+                         }
+                     }
+                     break;
+
+                    case SDLK_DOWN:
+                      buttonpos+=1;
+                      if(buttonpos>3)
+                        buttonpos=1;
+                        if(buttonpos==1)
+                        {
+                          bouton1 = IMG_Load("Menu/Menu/bouton11.png");
+                          
+                        }
+                        else
+                          bouton1 = IMG_Load("Menu/Menu/bouton1.png");
+                        if(buttonpos==2)
+                          {
+                            bouton2 = IMG_Load("Menu/Menu/bouton22.png");
+                           
+                          }
+                        else
+                          bouton2 = IMG_Load("Menu/Menu/bouton2.png");
+                        if(buttonpos==3)
+                          {
+                          bouton3 = IMG_Load("Menu/Menu/bouton33.png");
+                          
+                          }
+                        else
+                          bouton3 = IMG_Load("Menu/Menu/bouton3.png");
+                        
+                        break;
+                    case SDLK_UP:
+                      buttonpos-=1;
+                      if(buttonpos<1)
+                          buttonpos=3;
+                         if(buttonpos==1)
+                        {
+                          bouton1 = IMG_Load("Menu/Menu/bouton11.png");
+                          
+                          
+                        }
+                        else
+                          bouton1 = IMG_Load("Menu/Menu/bouton1.png");
+                        if(buttonpos==2)
+                          {
+                            bouton2 = IMG_Load("Menu/Menu/bouton22.png");
+                            
+                          }
+                        else
+                          bouton2 = IMG_Load("Menu/Menu/bouton2.png");
+                        if(buttonpos==3)
+                          {
+
+                          bouton3 = IMG_Load("Menu/Menu/bouton33.png");
+                           
+
+                          }
+                        else
+                          bouton3 = IMG_Load("Menu/Menu/bouton3.png");
+                        
+                        break;
+                    
+                    
+                }
+                break; 
+             }
+
+      case SDL_MOUSEMOTION :
+                 {
+                 if (positionBouton1.x <= event.motion.x && event.motion.x <= positionBouton1.x + bouton1->w && positionBouton1.y <= event.motion.y && event.motion.y <= positionBouton1.y + bouton1->h) 
+                      {
+                          bouton1 = IMG_Load("Menu/Menu/bouton11.png");
+                          if (nb_press_b1 ==0)
+                          {
+                          
+                            nb_press_b1++;
+                          }
+                        }
+                        else
+                          {
+                            bouton1 = IMG_Load("Menu/Menu/bouton1.png");
+                            nb_press_b1=0;
+                          }
+                 
+                  if (positionBouton2.x <= event.motion.x && event.motion.x <= positionBouton2.x + bouton2->w && positionBouton2.y <= event.motion.y && event.motion.y <= positionBouton2.y + bouton2->h) 
+                      {
+                            bouton2 = IMG_Load("Menu/Menu/bouton22.png");
+                         if (nb_press_b2 ==0)
+                          {
+                            
+                            nb_press_b2++;
+                          }
+                          }
+                        else
+                        {
+                          bouton2 = IMG_Load("Menu/Menu/bouton2.png");
+                          nb_press_b2=0;
+                        }
+                  if (positionBouton3.x <= event.motion.x && event.motion.x <= positionBouton3.x + bouton3->w && positionBouton3.y <= event.motion.y && event.motion.y <= positionBouton3.y + bouton3->h) 
+                      {  
+                          bouton3 = IMG_Load("Menu/Menu/bouton33.png");
+                          if (nb_press_b3 ==0)
+                          {
+                            
+                            nb_press_b3++;
+                          }
+                          }
+                        else
+                         {
+                          bouton3 = IMG_Load("Menu/Menu/bouton3.png");
+                          nb_press_b3=0;
+                         }
+                  }       
+                break;
+        case SDL_MOUSEBUTTONUP :
+            {
+                      if (event.button.button == SDL_BUTTON_LEFT)
+                      {
+                       
+                        if (positionBouton1.x <= event.button.x && event.button.x <= positionBouton1.x + bouton1->w && positionBouton1.y <= event.button.y && event.button.y <= positionBouton1.y + bouton1->h) 
+                          { 
+                          ok=1;
+                           }
+                 
+                         else if (positionBouton2.x <= event.button.x && event.button.x <= positionBouton2.x + bouton2->w && positionBouton2.y <= event.button.y && event.button.y <= positionBouton2.y + bouton2->h) 
+                          { 
+                         
+                               *cond=2;
+                          }
+                 
+                        else if (positionBouton3.x <= event.button.x && event.button.x <= positionBouton3.x + bouton3->w && positionBouton3.y <= event.button.y && event.button.y <= positionBouton3.y + bouton3->h) 
+                          { 
+                          *cond=3;
+                          ok=0;
+        
+
+                          }
+                                         
+                            
+                          
+                      }
+              }
+                 break;
+
+              
+
+
+
+    }//mta3 l'event
+SDL_BlitSurface(imageDeFond, NULL, fenetre, &positionFond);
+     SDL_BlitSurface(bouton1, NULL, fenetre, &positionBouton1);
+     SDL_BlitSurface(bouton2, NULL, fenetre, &positionBouton2);
+     SDL_BlitSurface(bouton3, NULL, fenetre, &positionBouton3);
+     SDL_Flip(fenetre);
+
+    }//mta3 el while lekbira
+    SDL_FreeSurface(imageDeFond);
+    SDL_FreeSurface(bouton1);
+    SDL_FreeSurface(bouton2);
+    SDL_FreeSurface(bouton3);
+    SDL_FillRect(fenetre,NULL,0);
+    return 0;
+}//mteehom kol
+
+
+
+
 void apply_surface( int x, int y, SDL_Surface* source, SDL_Surface* destination)
 {
     SDL_Rect offset;
@@ -154,6 +381,13 @@ int detecter_collision_restaurant (SDL_Surface *image, SDL_Rect position)
   color = GetPixel (image, position.x, position.y+27/2);
   if (color.r==0 && color.g==0 && color.b==0) return 1;
   return 0;
+}
+
+void sauvegarde (int *save,SDL_Rect *bg)
+{
+FILE *f=fopen("chemin","w");
+  fprintf (f," %d %d",bg->x,bg->y);
+fclose(f);
 }
 // int detecter_collision_trigonometric(SDL_Surface *imageA, SDL_Surface *imageB, SDL_Rect objetA, SDL_Rect objetB)
 // {
@@ -405,10 +639,11 @@ void mvt_arduino (SDL_Rect *bg, SDL_Surface *imageDeFondCollision, SDL_Rect *pos
 }
 
 
-void mvt_clavier (int *reun,SDL_Surface *fenetre, SDLKey bouton, SDL_Rect *bg, SDL_Surface *imageDeFondCollision, SDL_Rect *positionpers, int *mouvement, SDL_Rect *pospers, SDL_Surface **image)
+void mvt_clavier (int *reun,SDL_Surface *fenetre, SDLKey bouton, SDL_Rect *bg, SDL_Surface *imageDeFondCollision, SDL_Rect *positionpers, int *mouvement, SDL_Rect *pospers, SDL_Surface **image,int *ok,int *save)
 {
   SDL_Event e;
   int compteur=1;
+  int cond;
    switch(bouton)
                 {
                   case SDLK_RIGHT:
@@ -559,19 +794,58 @@ void mvt_clavier (int *reun,SDL_Surface *fenetre, SDLKey bouton, SDL_Rect *bg, S
                       bg->y+=2;
                   }
                   break;
+                  case SDLK_ESCAPE:
+                  {
+
+                    Smain(&cond);
+                      
+                    if (cond==1)
+                    {
+                      return 0;
+                    }
+                  if (cond==2)
+                    {
+                    *save=1;
+                    *ok=1;
+                    }
+                  if (cond==3)
+                    {
+                      *ok=1;
+                      SDL_QUIT;
+                    }
+                  }
+                break;
+                }
      }
-}
+
 
 int main( int argc, char* args[] )
 {
     int quit = 0,mouvement=0,m;
     SDL_Rect positionpers,positiontexte,pospers,bg;
+    int save=0;
     positionpers.x=638;
     positionpers.y=338;
     positiontexte.x=0;
     positiontexte.y=0;
     int score=0;
-    int bgX = -2500, bgY = -3350;
+    int bgX , bgY ;
+    FILE *f=fopen("chemin","r");
+
+    
+    if (fgetc(f)!=EOF)
+    {
+      fscanf (f," %d %d",&bgX,&bgY);
+      
+     
+    }
+    
+    else 
+      {
+        bgX = -2600;
+      bgY = -3400;
+      }
+    
     bg.x=bgX;
     bg.y=bgY;
     SDL_Event event;
@@ -601,7 +875,7 @@ int main( int argc, char* args[] )
                quit=1; break;
              case SDL_KEYDOWN :
              {
-              mvt_clavier (&reun,fenetre,event.key.keysym.sym, &bg,imageDeFondCollision,&positionpers,&mouvement,&pospers, &image);
+              mvt_clavier (&reun,fenetre,event.key.keysym.sym, &bg,imageDeFondCollision,&positionpers,&mouvement,&pospers, &image,&quit,&save);
               mvt_arduino (&bg,imageDeFondCollision,&positionpers,&mouvement,&pospers, &image);
         }
       }
@@ -618,6 +892,13 @@ int main( int argc, char* args[] )
         SDL_FillRect(fenetre,NULL,0);
       }
     }
+      if (save==1)
+{
+
+sauvegarde (&save,&bg);
+
+}
+
     clean_up();
     return 0;
 }
