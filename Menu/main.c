@@ -3,9 +3,9 @@
 int main()
 {
     SDL_Surface *fenetre = NULL,*bouton555=NULL,*bouton444=NULL,*bouton333=NULL,*bouton222=NULL,*bouton111=NULL, *imageDeFond = NULL, *bouton1 = NULL, *bouton2 = NULL, *bouton3 = NULL, *bouton4 = NULL, *bouton5 = NULL, *bouton11 = NULL, *bouton22 = NULL, *bouton33 = NULL, *bouton44 = NULL, *bouton55 = NULL, *texte = NULL;
-    SDL_Rect positionFond, positionBouton1, positionBouton2, positionBouton3, positionBouton4, positionBouton5, positionTexte;
+    SDL_Rect positionFond, positionBouton1, positionBouton2, positionBouton3, positionBouton4, positionBouton5, positionTexte,position;
     Mix_Chunk *son_bouton, *son_fond;
-    int ok = 1, buttonpos=0, nb_press_b1=0, nb_press_b2=0, nb_press_b3=0, nb_press_b4=0, nb_press_b5=0;
+    int ok = 1, buttonpos=0, nb_press_b1=0, nb_press_b2=0, nb_press_b3=0, nb_press_b4=0, nb_press_b5=0,score;
     SDL_Event event;
     TTF_Font *police = NULL;
     SDL_Color noir = {0, 0, 0};
@@ -24,7 +24,7 @@ int main()
     positionTexte.x= 500;
     positionTexte.y= 200;
     SDL_Init(SDL_INIT_VIDEO);
-    SDL_EnableKeyRepeat (300,300);
+    SDL_EnableKeyRepeat (100,100);
     TTF_Init();
     Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS, 1024);
     FPS_Initial();
@@ -152,6 +152,7 @@ int main()
                       if(buttonpos==2)
                           { texte = TTF_RenderText_Blended(police, "Vous avez clique sur le bouton 2", noir);
                            Mix_PlayChannel(1, son_bouton, 0);
+                           loadgame();
                          }
                       if(buttonpos==3)
                           { option(fenetre);
@@ -279,8 +280,6 @@ int main()
                       buttonpos=0, nb_press_b1=0, nb_press_b2=0, nb_press_b3=0, nb_press_b4=0, nb_press_b5=0;
                  break;
         }
-    
-    
      SDL_BlitSurface(imageDeFond, NULL, fenetre, &positionFond);
      SDL_BlitSurface(bouton111, NULL, fenetre, &positionBouton1);
      SDL_BlitSurface(bouton222, NULL, fenetre, &positionBouton2);
@@ -289,7 +288,6 @@ int main()
      SDL_BlitSurface(bouton555, NULL, fenetre, &positionBouton5);
      SDL_BlitSurface(texte, NULL, fenetre, &positionTexte);
      SDL_Flip(fenetre);
-
     }
     SDL_FreeSurface(imageDeFond);
     SDL_FreeSurface(bouton111);

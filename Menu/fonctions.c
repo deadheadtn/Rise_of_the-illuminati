@@ -53,9 +53,10 @@ void credit(SDL_Surface *fenetre)
 }
 void option(SDL_Surface *fenetre)
 {
-    SDL_Surface *imageDeFond =NULL,*imagecredit=NULL,*texte = NULL;
-    SDL_Rect pos,credit,positiononoff;
+    SDL_Surface *imageDeFond =NULL,*imageoption=NULL,*texte = NULL,*texte1 = NULL,*texte2 = NULL;
+    SDL_Rect pos,option,positiononoff,positionres1,positionres2;
     SDL_Event e; 
+    int a=0,b=0,c=0;
     SDL_Event event;
     TTF_Font *police = NULL;
     TTF_Init();
@@ -63,51 +64,103 @@ void option(SDL_Surface *fenetre)
     SDL_Color noir = {0, 0, 0};
     int compteur = 1; 
     imageDeFond = IMG_Load("Menu/fond.bmp");
-    imagecredit = IMG_Load("Menu/option.jpg");
+    imageoption = IMG_Load("Menu/option.jpg");
     positiononoff.x= 620;
     positiononoff.y= 240;
+    positionres1.x=620;
+    positionres1.y=280;
+    positionres2.x=620;
+    positionres2.y=320;
+    // positionres3.x=;
+    // positionres3.y=;
+    // positionres4.x=;
+    // positionres4.y=;
     pos.x =0; 
     pos.y =0;
-    credit.x=380;
-    credit.y=100;
-    texte = TTF_RenderText_Blended(police, "On/Off", noir);
+    option.x=380;
+    option.y=100;
 
-    SDL_BlitSurface(imageDeFond, NULL, fenetre, &pos);
-    SDL_BlitSurface(imagecredit, NULL, fenetre, &credit);
-    SDL_BlitSurface(texte, NULL, fenetre, &positiononoff);
-    SDL_Flip(imagecredit);
-    SDL_Flip(fenetre);
+    SDL_Event event1;
+    texte = TTF_RenderText_Blended(police, "On", noir);
+    texte1 = TTF_RenderText_Blended(police, "1200x700", noir);
+    texte2 = TTF_RenderText_Blended(police, "Window Mode", noir);
     while(compteur != 0) 
     {
-        SDL_WaitEvent(&e);
-        if(e.key.keysym.sym == SDLK_ESCAPE) 
+        SDL_WaitEvent(&event1);
+        if(event1.key.keysym.sym == SDLK_ESCAPE) 
             compteur =0;
-    } 
-           // case SDL_MOUSEBUTTONUP :
-             //         if (event.texte.texte)
-              //        {
-
-                        //if (positiononoff.x <= 860 && event.button.x <= positiononoff.x + 10 && positiononoff.y <= 240 && 240 <= positiononoff.y + 10) 
+    switch (event1.type) 
+    {
+            case SDL_MOUSEBUTTONUP :
+                 if (event1.button.button == SDL_BUTTON_LEFT)
+                      {
+                        if (positiononoff.x <= event1.button.x && event1.button.x <= positiononoff.x + texte->w && positiononoff.y <= event1.button.y && event1.button.y <= positiononoff.y + texte->h)
+                        {
+                            printf("%d",a);
+                            if(a==0){
+                            texte = TTF_RenderText_Blended(police, "OFF", noir);
+                            Mix_Volume(0,0);
+                            a++;
+                            }
+                            else if (a==1)
+                            {
+                                texte = TTF_RenderText_Blended(police, "On", noir);
+                                Mix_Volume(0,MIX_MAX_VOLUME/2);
+                                a=0;
+                            }
+                        }
+                        else if (positionres1.x <= event1.button.x && event1.button.x <= positionres1.x + texte1->w && positionres1.y <= event1.button.y && event1.button.y <= positionres1.y + texte1->h)
+                        {
+                            printf("%d",b);
+                            if(b==0){
+                                texte1 = TTF_RenderText_Blended(police, "800x600", noir);
+                                fenetre = SDL_SetVideoMode(800, 600, 32, SDL_HWSURFACE | SDL_DOUBLEBUF);
+                                b++;
+                            }
+                            else if (b==1)
+                            {
+                                texte1 = TTF_RenderText_Blended(police, "1200x700", noir);
+                                fenetre = SDL_SetVideoMode(1200, 700, 32, SDL_HWSURFACE | SDL_DOUBLEBUF);
+                                b=0;
+                            }
+                        }
+                        else if (positionres2.x <= event1.button.x && event1.button.x <= positionres2.x + texte2->w && positionres2.y <= event1.button.y && event1.button.y <= positionres2.y + texte2->h)
+                        {
+                            printf("%d",c);
+                            if(c==0){
+                                texte2 = TTF_RenderText_Blended(police, "Full Screen", noir);
+                                fenetre = SDL_SetVideoMode(1200, 700, 32, SDL_HWSURFACE | SDL_FULLSCREEN | SDL_DOUBLEBUF);
+                                c++;
+                            }
+                            else if (c==1)
+                            {
+                                texte2 = TTF_RenderText_Blended(police, "Window Mode", noir);
+                                fenetre = SDL_SetVideoMode(1200, 700, 32, SDL_HWSURFACE | SDL_DOUBLEBUF);
+                                c=0;
+                            }
+                        }
+                    }
+    }  
+    SDL_BlitSurface(imageDeFond, NULL, fenetre, &pos);
+    SDL_BlitSurface(imageoption, NULL, fenetre, &option);
+    SDL_BlitSurface(texte, NULL, fenetre, &positiononoff);
+    SDL_BlitSurface(texte1, NULL, fenetre, &positionres1);
+    SDL_BlitSurface(texte2, NULL, fenetre, &positionres2);
+    SDL_Flip(imageoption);
+    SDL_Flip(fenetre);
+    }       
     SDL_FreeSurface(imageDeFond);
 }
 
 void loadgame()
 {
-    char str[20];
-    SDL_Surface *texte=NULL;
-    TTF_Font *police = NULL;
-    TTF_Init();
-    police = TTF_OpenFont("Font/western.ttf", 32);
-    SDL_Color noir = {0, 0, 0};
-    FILE *file=fopen("save.txt", "r");
-    SDL_Rect pos;
-    pos.x=700;
-    pos.y=300;
-    if (file) {
-    while (fscanf(file, "%s", str)!=EOF)
-        texte = TTF_RenderText_Blended(police, str, noir);
-    fclose(file);
-}
+    char ch[15];
+    FILE *file=fopen("savedchgames/save.txt", "r");
+    while(!feof(file))
+    {
+        fscanf(file,"%s",ch);
+        printf("%s",ch);
+    }
 }
 // int UpdateScroll(Map* m)
 // {

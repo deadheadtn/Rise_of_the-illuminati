@@ -22,34 +22,23 @@ void setup() {
 }
 
 void loop() {
-  buttonState = digitalRead(button1);
+  //buttonState = digitalRead(button1);
   xPosition = analogRead(xPin);
   yPosition = analogRead(yPin);
   if(xPosition>230 && xPosition<240 && yPosition==760 || yPosition==761)
      Serial.print("i\n");
-   else if(xPosition>340 && yPosition>1016)
+   else if(xPosition<230 && yPosition>850)
      Serial.print("l\n");
-   else if(yPosition>950 && yPosition<1000&& xPosition>330 && xPosition<850)
+   else if(yPosition>800 && yPosition<1000 && xPosition>230 && xPosition<500)
       Serial.print("d\n");
-   else if(xPosition==0  && yPosition>950)
+   else if(xPosition<230 && xPosition>0  && yPosition<760 && yPosition>500)
      Serial.print("u\n");
-   else if(xPosition<500 && xPosition>100 && yPosition>1016)
+   else if(xPosition>230 && xPosition<550 && yPosition>700 && yPosition<800)
     Serial.print("r\n");
    delay(150);
-   if(Serial.available() >0)
-   {
-     char data = (char) Serial.read();
-     delay (5);
-   }
-     if((char)Serial.read()=='1')
-     {
-       digitalWrite(led1, HIGH);
-       digitalWrite(led2, HIGH);
-     }
-     else if((char)Serial.read()=='0')
-     {
-       digitalWrite(led1, LOW);
-       digitalWrite(led2, LOW);
-     }
-   
+   Serial.print(xPosition);
+   Serial.print(" ");
+   Serial.print(yPosition);
+   Serial.print("\n");
+
 }

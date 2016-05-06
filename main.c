@@ -117,7 +117,7 @@ SDL_Surface *anim_down(int *mouvement)
   perso_right[2]= IMG_Load("perso/down1.png");
   perso_right[3]= IMG_Load("perso/down3.png");
   if(*mouvement>3)
-    {*mouvement=0;}
+    *mouvement=0;
   return perso_right[*mouvement];
 }
 //
@@ -148,18 +148,42 @@ int detecter_Pin (SDL_Surface *image, SDL_Rect position)
   if (color.r==0 && color.g==0 && color.b==0) return 1;
   return 0;
 }
-
+int detecter_collision_restaurant (SDL_Surface *image, SDL_Rect position)
+{
+  SDL_Color color;
+  color = GetPixel (image, position.x, position.y+27/2);
+  if (color.r==0 && color.g==0 && color.b==0) return 1;
+  return 0;
+}
 // int detecter_collision_trigonometric(SDL_Surface *imageA, SDL_Surface *imageB, SDL_Rect objetA, SDL_Rect objetB)
 // {
 //     int adj,hyp,opp;
 //     adj=abs(objetA.y-objet.B.y);
 //     opp=abs(objetA.x-objet.B-x);
-//     hyp=sqrt(sqr(opp,2))+sqrt(sqr(adj,2));
+//     hyp=sqrt(pow(opp,2))+pow(sqr(adj,2));
 //     if(hyp==0)
 //       return 1;
 //     else
 //       return 0;
 //   }
+void Reunion(SDL_Surface *fenetre)
+{
+  SDL_Surface *restaurant,*question;
+  int compteur=1;
+  SDL_Rect posrestaurant,posquestion;
+  SDL_Rect posperso;
+  posrestaurant.x= 200;
+  posrestaurant.y=-100;
+  posquestion.x=400;
+  posquestion.y=0;
+  restaurant=IMG_Load("map/kojina.png");
+  question= IMG_Load("entities/liste.png");
+  SDL_BlitSurface(restaurant,NULL, fenetre, &posrestaurant);
+  SDL_Flip(fenetre);
+  SDL_Delay(100);
+  SDL_BlitSurface(question,NULL, fenetre, &posquestion);
+  SDL_Flip(fenetre);
+}
 
 void afficherscore(int score)
 {
@@ -265,6 +289,7 @@ void mvt_arduino (SDL_Rect *bg, SDL_Surface *imageDeFondCollision, SDL_Rect *pos
 {
   char a;
   arduinoReadData(&a);
+  printf("%c",a);
   if(strcmp(&a,"r")==0)
                   { 
                     pospers->x=-bg->x+positionpers->x;
@@ -273,7 +298,6 @@ void mvt_arduino (SDL_Rect *bg, SDL_Surface *imageDeFondCollision, SDL_Rect *pos
                     {
                       if(detecter_Pin(imageDeFondCollision, *pospers))
                       {
-                        //entrer_reunion(*fenetre);
                         printf("1");
                       }
                     *image=anim_right(mouvement);
@@ -372,7 +396,7 @@ void mvt_arduino (SDL_Rect *bg, SDL_Surface *imageDeFondCollision, SDL_Rect *pos
 }
 
 
-void mvt_clavier (SDLKey bouton, SDL_Rect *bg, SDL_Surface *imageDeFondCollision, SDL_Rect *positionpers, int *mouvement, SDL_Rect *pospers, SDL_Surface **image)
+void mvt_clavier (int *reun,SDL_Surface *fenetre, SDLKey bouton, SDL_Rect *bg, SDL_Surface *imageDeFondCollision, SDL_Rect *positionpers, int *mouvement, SDL_Rect *pospers, SDL_Surface **image)
 {
    switch(bouton)
                 {
@@ -384,15 +408,15 @@ void mvt_clavier (SDLKey bouton, SDL_Rect *bg, SDL_Surface *imageDeFondCollision
                     {
                       if(detecter_Pin(imageDeFondCollision, *pospers))
                       {
-                        //entrer_reunion(*fenetre);
-                        printf("1");
+                        *reun=1;
+                        Reunion(fenetre);
                       }
+
                     *image=anim_right(mouvement);
                     (*mouvement)++;
                     bg->x -= 3;
                     bg->y +=(-1/9)*bg->x+2;
                     SDL_Delay(40);
-                    
                   }
                     else
                     {
@@ -412,9 +436,10 @@ void mvt_clavier (SDLKey bouton, SDL_Rect *bg, SDL_Surface *imageDeFondCollision
                     {
                       if(detecter_Pin(imageDeFondCollision, *pospers))
                       {
-                        //entrer_reunion(*fenetre);
-                        printf("1");
+                        *reun=1;
+                        Reunion(fenetre);
                       }
+
                     *image=anim_left(mouvement);
                     (*mouvement)++;
                     bg->x += 3;
@@ -438,9 +463,11 @@ void mvt_clavier (SDLKey bouton, SDL_Rect *bg, SDL_Surface *imageDeFondCollision
                     {
                       if(detecter_Pin(imageDeFondCollision, *pospers))
                       {
-                        //entrer_reunion(*fenetre);
-                        printf("1");
+                        *reun=1;
+                        Reunion(fenetre);
+                        
                       }
+
                     *image=anim_up(mouvement);
                     (*mouvement)++;
                     bg->x += 3;
@@ -465,8 +492,8 @@ void mvt_clavier (SDLKey bouton, SDL_Rect *bg, SDL_Surface *imageDeFondCollision
                     {
                       if(detecter_Pin(imageDeFondCollision, *pospers))
                       {
-                        //entrer_reunion(*fenetre);
-                        printf("1");
+                        *reun=1;
+                        Reunion(fenetre);
                       }
                     *image=anim_down(mouvement);
                     (*mouvement)++;
@@ -483,9 +510,8 @@ void mvt_clavier (SDLKey bouton, SDL_Rect *bg, SDL_Surface *imageDeFondCollision
                       bg->y+=2;
                   }
                   break;
-
-                }
-             }
+     }
+}
 
 int main( int argc, char* args[] )
 {
@@ -495,12 +521,11 @@ int main( int argc, char* args[] )
     positionpers.y=338;
     positiontexte.x=0;
     positiontexte.y=0;
-    int score=300;
+    int score=0;
     int bgX = -2500, bgY = -3350;
     bg.x=bgX;
     bg.y=bgY;
     SDL_Event event;
-    int bbb;
     SDL_Surface *image=NULL,*texte=NULL;
     TTF_Font *police = NULL;
     SDL_Color noir = {0, 0, 0};
@@ -508,7 +533,7 @@ int main( int argc, char* args[] )
     police = TTF_OpenFont("western.ttf", 32);
     texte = TTF_RenderText_Blended(police, "", noir);
     char ch[10];
-    int bbb;
+    int reun=0;
     if( init() == 0 )
     {
         return 1;
@@ -522,16 +547,17 @@ int main( int argc, char* args[] )
     {
      SDL_PollEvent(&event);
         switch (event.type)
-        {
-                      
+        {         
             case SDL_QUIT : 
                quit=1; break;
              case SDL_KEYDOWN :
              {
-              mvt_clavier (event.key.keysym.sym, &bg,imageDeFondCollision,&positionpers,&mouvement,&pospers, &image);
+              mvt_clavier (&reun,fenetre,event.key.keysym.sym, &bg,imageDeFondCollision,&positionpers,&mouvement,&pospers, &image);
               mvt_arduino (&bg,imageDeFondCollision,&positionpers,&mouvement,&pospers, &image);
         }
       }
+      if(reun==0)
+      {
         apply_surface( bg.x, bg.y, background, fenetre );
         apply_surface( positionpers.x, positionpers.y, image, fenetre );
         SDL_BlitSurface(texte, NULL, fenetre, &positiontexte);
@@ -541,6 +567,7 @@ int main( int argc, char* args[] )
         if( SDL_Flip( fenetre ) == -1 )
             return 1;
         SDL_FillRect(fenetre,NULL,0);
+      }
     }
     clean_up();
     return 0;
