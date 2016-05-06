@@ -400,14 +400,23 @@ void Score(int vie,int t_ennemis[],SDL_Rect *pospers)
 }
 void Reunion(SDL_Surface *fenetre)
 {
+  SDL_Surface *text;
+  int boucle=1;
+  SDL_Event event;
+  TTF_Font *police = NULL;
+  TTF_Init();
+  police = TTF_OpenFont("Font/western.ttf", 32);
+  SDL_Color noir = {0, 0, 0};
   SDL_Surface *restaurant,*question;
   int compteur=1;
-  SDL_Rect posrestaurant,posquestion;
+  SDL_Rect posrestaurant,posquestion,posq;
   SDL_Rect posperso;
   posrestaurant.x= 200;
   posrestaurant.y=-100;
   posquestion.x=400;
   posquestion.y=0;
+  posq.x=450;
+  posq.y=250;
   restaurant=IMG_Load("map/kojina.png");
   question= IMG_Load("entities/liste.png");
   SDL_BlitSurface(restaurant,NULL, fenetre, &posrestaurant);
@@ -416,6 +425,26 @@ void Reunion(SDL_Surface *fenetre)
   SDL_BlitSurface(question,NULL, fenetre, &posquestion);
   SDL_Flip(fenetre);
   SDL_Event ev;
+  text = TTF_RenderText_Blended(police, "texte here", noir);
+  SDL_BlitSurface(text,NULL, fenetre, &posq);
+  SDL_Flip(fenetre);
+  while(boucle!=0)
+  {
+    SDL_WaitEvent(&ev);
+    if(ev.key.keysym.sym == SDLK_ESCAPE) 
+            boucle =0;
+    switch(ev.key.keysym.sym)
+    {
+      case SDLK_UP:
+        text = TTF_RenderText_Blended(police, "UP", noir);boucle--; break;
+      case SDLK_DOWN:
+        text = TTF_RenderText_Blended(police, "DOWN", noir);boucle++; break;
+    }
+    SDL_BlitSurface(text,NULL, fenetre, &posq);
+    SDL_Flip(fenetre);
+  }
+      TTF_CloseFont(police);
+    TTF_Quit();
 }
 
 void afficherscore(int score)
@@ -824,11 +853,7 @@ int main( int argc, char* args[] )
 
     
     if (fgetc(f)!=EOF)
-    {
       fscanf (f," %d %d",&bgX,&bgY);
-      
-     
-    }
     
     else 
       {
