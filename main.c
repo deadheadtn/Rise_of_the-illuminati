@@ -222,7 +222,7 @@ SDL_BlitSurface(imageDeFond, NULL, fenetre, &positionFond);
     SDL_FreeSurface(bouton2);
     SDL_FreeSurface(bouton3);
     SDL_FillRect(fenetre,NULL,0);
-    ok=1;
+    ok=0;
 }//mteehom kol
 
 
@@ -442,7 +442,7 @@ void pershud(int score)
   star[0]=IMG_Load("entities/star1.png");
   star[1]=IMG_Load("entities/star2.png");
   star[2]=IMG_Load("entities/star3.png");
-  if(score>0 && score<=100)
+  if(score>=0 && score<=100)
     SDL_BlitSurface(star[0], NULL, fenetre,&posstar);
   if(score>100 && score<=200)
     SDL_BlitSurface(star[1], NULL, fenetre,&posstar);
