@@ -205,20 +205,10 @@ while (ok)
                           { 
                           *cond=3;
                           ok=0;
-        
-
-                          }
-                                         
-                            
-                          
+                          }  
                       }
               }
                  break;
-
-              
-
-
-
     }//mta3 l'event
 SDL_BlitSurface(imageDeFond, NULL, fenetre, &positionFond);
      SDL_BlitSurface(bouton1, NULL, fenetre, &positionBouton1);
@@ -232,7 +222,7 @@ SDL_BlitSurface(imageDeFond, NULL, fenetre, &positionFond);
     SDL_FreeSurface(bouton2);
     SDL_FreeSurface(bouton3);
     SDL_FillRect(fenetre,NULL,0);
-    return 0;
+    ok=1;
 }//mteehom kol
 
 
@@ -801,7 +791,7 @@ void mvt_clavier (int *reun,SDL_Surface *fenetre, SDLKey bouton, SDL_Rect *bg, S
                       
                     if (cond==1)
                     {
-                      return 0;
+                      *ok=1;
                     }
                   if (cond==2)
                     {
@@ -900,5 +890,4 @@ sauvegarde (&save,&bg);
 }
 
     clean_up();
-    return 0;
 }
