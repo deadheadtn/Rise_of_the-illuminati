@@ -38,7 +38,7 @@ positionFond.x = 0;
  imageDeFond = IMG_Load("Menu/Menu/fond.bmp");
     bouton1 = IMG_Load("Menu/Menu/bouton1.png");
     bouton2 = IMG_Load("Menu/Menu/bouton2.png");
-    bouton3 = IMG_Load("Menu/Menu/bouton3.png");
+    bouton3 = IMG_Load("Menu/Menu/bouton5.png");
 
 while (ok)
     { SDL_WaitEvent(&event);
@@ -95,11 +95,11 @@ while (ok)
                           bouton2 = IMG_Load("Menu/Menu/bouton2.png");
                         if(buttonpos==3)
                           {
-                          bouton3 = IMG_Load("Menu/Menu/bouton33.png");
+                          bouton3 = IMG_Load("Menu/Menu/bouton55.png");
                           
                           }
                         else
-                          bouton3 = IMG_Load("Menu/Menu/bouton3.png");
+                          bouton3 = IMG_Load("Menu/Menu/bouton5.png");
                         
                         break;
                     case SDLK_UP:
@@ -124,12 +124,12 @@ while (ok)
                         if(buttonpos==3)
                           {
 
-                          bouton3 = IMG_Load("Menu/Menu/bouton33.png");
+                          bouton3 = IMG_Load("Menu/Menu/bouton55.png");
                            
 
                           }
                         else
-                          bouton3 = IMG_Load("Menu/Menu/bouton3.png");
+                          bouton3 = IMG_Load("Menu/Menu/bouton5.png");
                         
                         break;
                     
@@ -171,7 +171,7 @@ while (ok)
                         }
                   if (positionBouton3.x <= event.motion.x && event.motion.x <= positionBouton3.x + bouton3->w && positionBouton3.y <= event.motion.y && event.motion.y <= positionBouton3.y + bouton3->h) 
                       {  
-                          bouton3 = IMG_Load("Menu/Menu/bouton33.png");
+                          bouton3 = IMG_Load("Menu/Menu/bouton55.png");
                           if (nb_press_b3 ==0)
                           {
                             
@@ -180,7 +180,7 @@ while (ok)
                           }
                         else
                          {
-                          bouton3 = IMG_Load("Menu/Menu/bouton3.png");
+                          bouton3 = IMG_Load("Menu/Menu/bouton5.png");
                           nb_press_b3=0;
                          }
                   }       
@@ -701,7 +701,7 @@ void mvt_clavier (int *reun,SDL_Surface *fenetre, SDLKey bouton, SDL_Rect *bg, S
                             *reun=1;
                             Reunion(fenetre);
                           }
-                          else if(*reun=0)
+                          else if(*reun==0)
                             compteur=0;
                         }
                       }
