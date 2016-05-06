@@ -166,6 +166,14 @@ int detecter_collision_restaurant (SDL_Surface *image, SDL_Rect position)
 //     else
 //       return 0;
 //   }
+
+void Score(int vie,int t_ennemis[],SDL_Rect *pospers)
+{
+  //if(collisionAB(t_ennemis,*pospers))
+  {
+    vie-=1;
+  }
+}
 void Reunion(SDL_Surface *fenetre)
 {
   SDL_Surface *restaurant,*question;
@@ -180,9 +188,10 @@ void Reunion(SDL_Surface *fenetre)
   question= IMG_Load("entities/liste.png");
   SDL_BlitSurface(restaurant,NULL, fenetre, &posrestaurant);
   SDL_Flip(fenetre);
-  SDL_Delay(100);
+  SDL_Delay(1000);
   SDL_BlitSurface(question,NULL, fenetre, &posquestion);
   SDL_Flip(fenetre);
+  SDL_Event ev;
 }
 
 void afficherscore(int score)
@@ -398,6 +407,8 @@ void mvt_arduino (SDL_Rect *bg, SDL_Surface *imageDeFondCollision, SDL_Rect *pos
 
 void mvt_clavier (int *reun,SDL_Surface *fenetre, SDLKey bouton, SDL_Rect *bg, SDL_Surface *imageDeFondCollision, SDL_Rect *positionpers, int *mouvement, SDL_Rect *pospers, SDL_Surface **image)
 {
+  SDL_Event e;
+  int compteur=1;
    switch(bouton)
                 {
                   case SDLK_RIGHT:
@@ -408,10 +419,21 @@ void mvt_clavier (int *reun,SDL_Surface *fenetre, SDLKey bouton, SDL_Rect *bg, S
                     {
                       if(detecter_Pin(imageDeFondCollision, *pospers))
                       {
-                        *reun=1;
-                        Reunion(fenetre);
+                        
+                        while(compteur!=0)
+                        {
+                          SDL_WaitEvent(&e);
+                          if(e.key.keysym.sym == SDLK_RETURN)
+                          {
+                            *reun=1;
+                            Reunion(fenetre);
+                          }
+                          else if(*reun=0)
+                            compteur=0;
+                        }
+                        
+                        break;
                       }
-
                     *image=anim_right(mouvement);
                     (*mouvement)++;
                     bg->x -= 3;
@@ -436,8 +458,17 @@ void mvt_clavier (int *reun,SDL_Surface *fenetre, SDLKey bouton, SDL_Rect *bg, S
                     {
                       if(detecter_Pin(imageDeFondCollision, *pospers))
                       {
-                        *reun=1;
-                        Reunion(fenetre);
+                        while(compteur!=0)
+                        {
+                          SDL_WaitEvent(&e);
+                          if(e.key.keysym.sym == SDLK_ESCAPE)
+                          {
+                            *reun=1;
+                            Reunion(fenetre);
+                          }
+                          else if(*reun=0)
+                            compteur=0;
+                        }
                       }
 
                     *image=anim_left(mouvement);
@@ -463,8 +494,17 @@ void mvt_clavier (int *reun,SDL_Surface *fenetre, SDLKey bouton, SDL_Rect *bg, S
                     {
                       if(detecter_Pin(imageDeFondCollision, *pospers))
                       {
-                        *reun=1;
-                        Reunion(fenetre);
+                        while(compteur!=0)
+                        {
+                          SDL_WaitEvent(&e);
+                          if(e.key.keysym.sym == SDLK_RETURN)
+                          {
+                            *reun=1;
+                            Reunion(fenetre);
+                          }
+                          else if(*reun=0)
+                            compteur=0;
+                        }
                         
                       }
 
@@ -492,8 +532,17 @@ void mvt_clavier (int *reun,SDL_Surface *fenetre, SDLKey bouton, SDL_Rect *bg, S
                     {
                       if(detecter_Pin(imageDeFondCollision, *pospers))
                       {
-                        *reun=1;
-                        Reunion(fenetre);
+                        while(compteur!=0)
+                        {
+                          SDL_WaitEvent(&e);
+                          if(e.key.keysym.sym == SDLK_RETURN)
+                          {
+                            *reun=1;
+                            Reunion(fenetre);
+                          }
+                          else if(*reun=0)
+                            compteur=0;
+                        }
                       }
                     *image=anim_down(mouvement);
                     (*mouvement)++;
