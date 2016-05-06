@@ -791,7 +791,7 @@ void mvt_clavier (int *reun,SDL_Surface *fenetre, SDLKey bouton, SDL_Rect *bg, S
                       
                     if (cond==1)
                     {
-                      *ok=1;
+                      break;
                     }
                   if (cond==2)
                     {
