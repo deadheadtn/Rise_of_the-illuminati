@@ -879,7 +879,7 @@ void Reunion()
   SDL_BlitSurface(C, NULL, fenetre, &posq3);
   SDL_BlitSurface(texte[0], NULL,fenetre, &posquestion);
   SDL_Flip(fenetre);
-  if(R==1 && Question==1)
+  /*if(R==1 && Question==1)
   {
 
   }
@@ -914,7 +914,7 @@ void Reunion()
   else if(R==3 && Question==3)
   {
     
-  }  
+  }*/  
   }
   TTF_CloseFont(police);
   TTF_Quit();
