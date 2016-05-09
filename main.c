@@ -15,9 +15,110 @@ SDL_Surface *background = NULL,*imageDeFondCollision=NULL;
 SDL_Surface *fenetre = NULL;
 SDL_Event event;
 
+void option()
+{
+    SDL_Surface *imageDeFond =NULL,*imageoption=NULL,*texte = NULL,*texte1 = NULL,*texte2 = NULL, *fenetre=NULL;
+    SDL_Rect pos,option,positiononoff,positionres1,positionres2;
+    SDL_Event e; 
+    SDL_Init(SDL_INIT_VIDEO);
+    fenetre = SDL_SetVideoMode(1300, 700, 32, SDL_HWSURFACE | SDL_DOUBLEBUF);
+    int a=0,b=0,c=0;
+    SDL_Event event;
+    TTF_Font *police = NULL;
+    TTF_Init();
+    police = TTF_OpenFont("western.ttf", 32);
+    SDL_Color noir = {0, 0, 0};
+    int compteur = 1; 
+    imageDeFond = IMG_Load("Menu/fond.bmp");
+    imageoption = IMG_Load("Menu/option.jpg");
+    positiononoff.x= 620;
+    positiononoff.y= 240;
+    positionres1.x=620;
+    positionres1.y=280;
+    positionres2.x=620;
+    positionres2.y=320;
+    // positionres3.x=;
+    // positionres3.y=;
+    // positionres4.x=;
+    // positionres4.y=;
+    pos.x =0; 
+    pos.y =0;
+    option.x=380;
+    option.y=100;
+
+    SDL_Event event1;
+    texte = TTF_RenderText_Blended(police, "On", noir);
+    texte1 = TTF_RenderText_Blended(police, "1200x700", noir);
+    texte2 = TTF_RenderText_Blended(police, "Window Mode", noir);
+    while(compteur != 0) 
+    {
+        SDL_WaitEvent(&event1);
+        if(event1.key.keysym.sym == SDLK_ESCAPE) 
+            compteur =0;
+    switch (event1.type) 
+    {
+            case SDL_MOUSEBUTTONUP :
+                 if (event1.button.button == SDL_BUTTON_LEFT)
+                      {
+                        if (positiononoff.x <= event1.button.x && event1.button.x <= positiononoff.x + texte->w && positiononoff.y <= event1.button.y && event1.button.y <= positiononoff.y + texte->h)
+                        {
+                            if(a==0){
+                            texte = TTF_RenderText_Blended(police, "OFF", noir);
+                            Mix_Volume(0,0);
+                            a++;
+                            }
+                            else if (a==1)
+                            {
+                                texte = TTF_RenderText_Blended(police, "On", noir);
+                                Mix_Volume(0,MIX_MAX_VOLUME/2);
+                                a=0;
+                            }
+                        }
+                        else if (positionres1.x <= event1.button.x && event1.button.x <= positionres1.x + texte1->w && positionres1.y <= event1.button.y && event1.button.y <= positionres1.y + texte1->h)
+                        {
+                            if(b==0){
+                                texte1 = TTF_RenderText_Blended(police, "800x600", noir);
+                                fenetre = SDL_SetVideoMode(800, 600, 32, SDL_HWSURFACE | SDL_DOUBLEBUF);
+                                b++;
+                            }
+                            else if (b==1)
+                            {
+                                texte1 = TTF_RenderText_Blended(police, "1200x700", noir);
+                                fenetre = SDL_SetVideoMode(1200, 700, 32, SDL_HWSURFACE | SDL_DOUBLEBUF);
+                                b=0;
+                            }
+                        }
+                        else if (positionres2.x <= event1.button.x && event1.button.x <= positionres2.x + texte2->w && positionres2.y <= event1.button.y && event1.button.y <= positionres2.y + texte2->h)
+                        {
+                            if(c==0){
+                                texte2 = TTF_RenderText_Blended(police, "Full Screen", noir);
+                                fenetre = SDL_SetVideoMode(1200, 700, 32, SDL_HWSURFACE | SDL_FULLSCREEN | SDL_DOUBLEBUF);
+                                c++;
+                            }
+                            else if (c==1)
+                            {
+                                texte2 = TTF_RenderText_Blended(police, "Window Mode", noir);
+                                fenetre = SDL_SetVideoMode(1200, 700, 32, SDL_HWSURFACE | SDL_DOUBLEBUF);
+                                c=0;
+                            }
+                        }
+                    }
+    }  
+    SDL_BlitSurface(imageDeFond, NULL, fenetre, &pos);
+    SDL_BlitSurface(imageoption, NULL, fenetre, &option);
+    SDL_BlitSurface(texte, NULL, fenetre, &positiononoff);
+    SDL_BlitSurface(texte1, NULL, fenetre, &positionres1);
+    SDL_BlitSurface(texte2, NULL, fenetre, &positionres2);
+    SDL_Flip(fenetre);
+    }       
+    SDL_FreeSurface(imageDeFond);
+    SDL_FreeSurface(imageDeFond);
+}
+
+
 int Pmenu(int *action)
 {
-    SDL_Surface *fenetre = NULL, *imageDeFond = NULL, *bouton1 = NULL, *bouton2 = NULL, *bouton3 = NULL, *bouton4 = NULL, *bouton5 = NULL, *texte = NULL;
+    SDL_Surface *fenetre = NULL,*bouton11 = NULL, *bouton22 = NULL, *bouton33 = NULL, *bouton44 = NULL, *bouton55 = NULL,*bouton555=NULL,*bouton444=NULL,*bouton333=NULL,*bouton222=NULL,*bouton111=NULL, *imageDeFond = NULL, *bouton1 = NULL, *bouton2 = NULL, *bouton3 = NULL, *bouton4 = NULL, *bouton5 = NULL, *texte = NULL;
     SDL_Rect positionFond, positionBouton1, positionBouton2, positionBouton3, positionBouton4, positionBouton5, positionTexte;
     Mix_Chunk *son_bouton, *son_fond;
     int ok = 1, buttonpos=0, nb_press_b1=0, nb_press_b2=0, nb_press_b3=0, nb_press_b4=0, nb_press_b5=0;
@@ -48,12 +149,22 @@ int Pmenu(int *action)
     fenetre = SDL_SetVideoMode(1300, 700, 32, SDL_HWSURFACE | SDL_DOUBLEBUF);
  
     //police = TTF_OpenFont("Font/western.ttf", 32);
-    imageDeFond = IMG_Load("Menu/Menu/fond.bmp");
-    bouton1 = IMG_Load("Menu/Menu/bouton1.png");
-    bouton2 = IMG_Load("Menu/Menu/bouton2.png");
-    bouton3 = IMG_Load("Menu/Menu/bouton3.png");
-    bouton4 = IMG_Load("Menu/Menu/bouton4.png");
-    bouton5 = IMG_Load("Menu/Menu/bouton5.png");
+    imageDeFond = IMG_Load("Menu/fond.bmp");
+    bouton1 = IMG_Load("Menu/bouton1.png");
+    bouton2 = IMG_Load("Menu/bouton2.png");
+    bouton3 = IMG_Load("Menu/bouton3.png");
+    bouton4 = IMG_Load("Menu/bouton4.png");
+    bouton5 = IMG_Load("Menu/bouton5.png");
+    bouton11 = IMG_Load("Menu/bouton11.png");
+    bouton22 = IMG_Load("Menu/bouton22.png");
+    bouton33 = IMG_Load("Menu/bouton33.png");
+    bouton44 = IMG_Load("Menu/bouton44.png");
+    bouton55 = IMG_Load("Menu/bouton55.png");
+    bouton111=bouton1;
+    bouton222=bouton2;
+    bouton333=bouton3;
+    bouton444=bouton4;
+    bouton555=bouton5;
     //texte = TTF_RenderText_Blended(police, "", noir);
     Mix_AllocateChannels(2);
     Mix_Volume(0, MIX_MAX_VOLUME);
@@ -68,7 +179,7 @@ int Pmenu(int *action)
         switch (event.type)
         {
             case SDL_QUIT : 
-                 ok=0 ; 
+                 ok=0 ;
                  break;
             case SDL_KEYDOWN:
             {
@@ -80,39 +191,39 @@ int Pmenu(int *action)
                         buttonpos=1;
                         if(buttonpos==1)
                         {
-                          bouton1 = IMG_Load("Menu/Menu/bouton11.png");
+                          bouton111 = bouton11;
                           Mix_PlayChannel(1, son_bouton, 0);
                         }
                         else
-                          bouton1 = IMG_Load("Menu/Menu/bouton1.png");
+                          bouton111 = bouton1;
                         if(buttonpos==2)
                           {
-                            bouton2 = IMG_Load("Menu/Menu/bouton22.png");
+                           bouton222 = bouton22;
                             Mix_PlayChannel(1, son_bouton, 0);
                           }
                         else
-                          bouton2 = IMG_Load("Menu/Menu/bouton2.png");
+                          bouton222 = bouton2;
                         if(buttonpos==3)
                           {
-                          bouton3 = IMG_Load("Menu/Menu/bouton33.png");
+                          bouton333 = bouton33;
                           Mix_PlayChannel(1, son_bouton, 0);
                           }
                         else
-                          bouton3 = IMG_Load("Menu/Menu/bouton3.png");
+                          bouton333 = bouton3;
                         if(buttonpos==4)
                          {
-                          bouton4 = IMG_Load("Menu/Menu/bouton44.png");
+                          bouton444 = bouton44;
                           Mix_PlayChannel(1, son_bouton, 0);
                          }
                         else
-                          bouton4 = IMG_Load("Menu/Menu/bouton4.png");
+                          bouton444 = bouton4;
                         if(buttonpos==5)
                           {
-                          bouton5 = IMG_Load("Menu/Menu/bouton55.png");
+                          bouton555 = bouton55;
                           Mix_PlayChannel(1, son_bouton, 0);
                           }
                         else
-                          bouton5 = IMG_Load("Menu/Menu/bouton5.png");
+                          bouton555 = bouton5;
                         break;
                     case SDLK_UP:
                       buttonpos-=1;
@@ -120,39 +231,39 @@ int Pmenu(int *action)
                           buttonpos=5;
                          if(buttonpos==1)
                         {
-                          bouton1 = IMG_Load("Menu/Menu/bouton11.png");
+                          bouton111 = bouton11;
                           Mix_PlayChannel(1, son_bouton, 0);
                         }
                         else
-                          bouton1 = IMG_Load("Menu/Menu/bouton1.png");
+                          bouton111 = bouton1;
                         if(buttonpos==2)
                           {
-                            bouton2 = IMG_Load("Menu/Menu/bouton22.png");
+                           bouton222  = bouton22;
                             Mix_PlayChannel(1, son_bouton, 0);
                           }
                         else
-                          bouton2 = IMG_Load("Menu/Menu/bouton2.png");
+                         bouton222  = bouton2;
                         if(buttonpos==3)
                           {
-                          bouton3 = IMG_Load("Menu/Menu/bouton33.png");
+                          bouton333 = bouton33;
                           Mix_PlayChannel(1, son_bouton, 0);
                           }
                         else
-                          bouton3 = IMG_Load("Menu/Menu/bouton3.png");
+                          bouton333 = bouton3;
                         if(buttonpos==4)
                          {
-                          bouton4 = IMG_Load("Menu/Menu/bouton44.png");
+                          bouton444 = bouton44;
                           Mix_PlayChannel(1, son_bouton, 0);
                          }
                         else
-                          bouton4 = IMG_Load("Menu/Menu/bouton4.png");
+                          bouton444 = bouton4;
                         if(buttonpos==5)
                           {
-                          bouton5 = IMG_Load("Menu/Menu/bouton55.png");
+                          bouton555 = bouton55;
                           Mix_PlayChannel(1, son_bouton, 0);
                           }
                         else
-                          bouton5 = IMG_Load("Menu/Menu/bouton5.png");
+                          bouton555 = bouton5;
                         if(buttonpos>5)
                           buttonpos=5;
                         break;
@@ -173,6 +284,7 @@ int Pmenu(int *action)
                           { //texte = TTF_RenderText_Blended(police, "Vous avez clique sur le bouton 3", noir);
                            Mix_PlayChannel(1, son_bouton, 0);
                            *action=3;
+                           ok=0;
                          }
                       if(buttonpos==4)
                           { //texte = TTF_RenderText_Blended(police, "Vous avez clique sur le bouton 4", noir);
@@ -192,7 +304,7 @@ int Pmenu(int *action)
             case SDL_MOUSEMOTION :
                  if (positionBouton1.x <= event.motion.x && event.motion.x <= positionBouton1.x + bouton1->w && positionBouton1.y <= event.motion.y && event.motion.y <= positionBouton1.y + bouton1->h) 
                       {
-                          bouton1 = IMG_Load("Menu/Menu/bouton11.png");
+                          bouton111 = bouton11;
                           if (nb_press_b1 ==0)
                           {
                             Mix_PlayChannel(1, son_bouton, 0);
@@ -201,13 +313,13 @@ int Pmenu(int *action)
                         }
                         else
                           {
-                            bouton1 = IMG_Load("Menu/Menu/bouton1.png");
+                            bouton111 = bouton1;
                             nb_press_b1=0;
                           }
                  
                   if (positionBouton2.x <= event.motion.x && event.motion.x <= positionBouton2.x + bouton2->w && positionBouton2.y <= event.motion.y && event.motion.y <= positionBouton2.y + bouton2->h) 
                       {
-                            bouton2 = IMG_Load("Menu/Menu/bouton22.png");
+                           bouton222  = bouton22;
                          if (nb_press_b2 ==0)
                           {
                             Mix_PlayChannel(1, son_bouton, 0);
@@ -216,12 +328,12 @@ int Pmenu(int *action)
                           }
                         else
                         {
-                          bouton2 = IMG_Load("Menu/Menu/bouton2.png");
+                         bouton222 = bouton2;
                           nb_press_b2=0;
                         }
                   if (positionBouton3.x <= event.motion.x && event.motion.x <= positionBouton3.x + bouton3->w && positionBouton3.y <= event.motion.y && event.motion.y <= positionBouton3.y + bouton3->h) 
                       {
-                          bouton3 = IMG_Load("Menu/Menu/bouton33.png");
+                          bouton333 = bouton33;
                           if (nb_press_b3 ==0)
                           {
                             Mix_PlayChannel(1, son_bouton, 0);
@@ -230,12 +342,12 @@ int Pmenu(int *action)
                           }
                         else
                          {
-                          bouton3 = IMG_Load("Menu/Menu/bouton3.png");
+                          bouton333 = bouton3;
                           nb_press_b3=0;
                          }
                   if (positionBouton4.x <= event.motion.x && event.motion.x <= positionBouton4.x + bouton4->w && positionBouton4.y <= event.motion.y && event.motion.y <= positionBouton4.y + bouton4->h) 
                       {
-                          bouton4 = IMG_Load("Menu/Menu/bouton44.png");
+                          bouton444 = bouton44;
                           if (nb_press_b4 ==0)
                           {
                             Mix_PlayChannel(1, son_bouton, 0);
@@ -244,12 +356,12 @@ int Pmenu(int *action)
                          }
                         else
                         {
-                          bouton4 = IMG_Load("Menu/Menu/bouton4.png");
+                          bouton444 = bouton4;
                           nb_press_b4=0;
                         }
                   if (positionBouton5.x <= event.motion.x && event.motion.x <= positionBouton5.x + bouton5->w && positionBouton5.y <= event.motion.y && event.motion.y <= positionBouton5.y + bouton5->h) 
                       {
-                          bouton5 = IMG_Load("Menu/Menu/bouton55.png");
+                          bouton555 = bouton55;
                           if (nb_press_b5 ==0)
                           {
                             Mix_PlayChannel(1, son_bouton, 0);
@@ -258,7 +370,7 @@ int Pmenu(int *action)
                           }
                         else
                          {
-                          bouton5 = IMG_Load("Menu/Menu/bouton5.png");
+                          bouton555 = bouton5;
                           nb_press_b5=0;
                         }
                 break;
@@ -283,6 +395,7 @@ int Pmenu(int *action)
                         else if (positionBouton3.x <= event.button.x && event.button.x <= positionBouton3.x + bouton3->w && positionBouton3.y <= event.button.y && event.button.y <= positionBouton3.y + bouton3->h) 
                           { //texte = TTF_RenderText_Blended(police, "Vous avez clique sur le bouton 3", noir);
                            Mix_PlayChannel(1, son_bouton, 0);
+                           *action=3;
                          }
                    
                         else if (positionBouton4.x <= event.button.x && event.button.x <= positionBouton4.x + bouton4->w && positionBouton4.y <= event.button.y && event.button.y <= positionBouton4.y + bouton4->h) 
@@ -304,20 +417,20 @@ int Pmenu(int *action)
     
     
      SDL_BlitSurface(imageDeFond, NULL, fenetre, &positionFond);
-     SDL_BlitSurface(bouton1, NULL, fenetre, &positionBouton1);
-     SDL_BlitSurface(bouton2, NULL, fenetre, &positionBouton2);
-     SDL_BlitSurface(bouton3, NULL, fenetre, &positionBouton3);
-     SDL_BlitSurface(bouton4, NULL, fenetre, &positionBouton4);
-     SDL_BlitSurface(bouton5, NULL, fenetre, &positionBouton5);
+     SDL_BlitSurface(bouton111, NULL, fenetre, &positionBouton1);
+     SDL_BlitSurface(bouton222, NULL, fenetre, &positionBouton2);
+     SDL_BlitSurface(bouton333, NULL, fenetre, &positionBouton3);
+     SDL_BlitSurface(bouton444, NULL, fenetre, &positionBouton4);
+     SDL_BlitSurface(bouton555, NULL, fenetre, &positionBouton5);
      SDL_BlitSurface(texte, NULL, fenetre, &positionTexte);
      SDL_Flip(fenetre);
     }
     SDL_FreeSurface(imageDeFond);
-    SDL_FreeSurface(bouton1);
-    SDL_FreeSurface(bouton2);
-    SDL_FreeSurface(bouton3);
-    SDL_FreeSurface(bouton4);
-    SDL_FreeSurface(bouton5);
+    SDL_FreeSurface(bouton111);
+    SDL_FreeSurface(bouton222);
+    SDL_FreeSurface(bouton333);
+    SDL_FreeSurface(bouton444);
+    SDL_FreeSurface(bouton555);
     //TTF_CloseFont(police);
     //TTF_Quit();
     Mix_FreeChunk(son_bouton);
@@ -327,7 +440,6 @@ int Pmenu(int *action)
  
     return 0;
 }
-
 
 
 
@@ -354,8 +466,8 @@ void Smain (int *cond)
     positionTexte.y= 300;
     SDL_Init(SDL_INIT_VIDEO);
     SDL_EnableKeyRepeat (300,300);
- fenetre = SDL_SetVideoMode(1300,700, 32, SDL_HWSURFACE | SDL_DOUBLEBUF);
- imageDeFond = IMG_Load("Menu/Menu/fond.bmp");
+    fenetre = SDL_SetVideoMode(1300,700, 32, SDL_HWSURFACE | SDL_DOUBLEBUF);
+    imageDeFond = IMG_Load("Menu/Menu/fond.bmp");
     bouton1 = IMG_Load("Menu/Menu/bouton1.png");
     bouton2 = IMG_Load("Menu/Menu/bouton2.png");
     bouton3 = IMG_Load("Menu/Menu/bouton5.png");
@@ -372,29 +484,6 @@ void Smain (int *cond)
             {
               switch(event.key.keysym.sym)
                 {
-                    
-                   case SDLK_RETURN :
-                    {
-                      if(buttonpos==1)
-                         { 
-                          *cond=1;
-                         ok=0;
-                          
-                          
-                         }
-                      if(buttonpos==2)
-                          { 
-                           *cond=2;
-                           ok=0;
-                         }
-                      if(buttonpos==3)
-                          { 
-                         *cond=3;
-                         ok=0;
-                         }
-                     }
-                     break;
-
                     case SDLK_DOWN:
                       buttonpos+=1;
                       if(buttonpos>3)
@@ -402,14 +491,12 @@ void Smain (int *cond)
                         if(buttonpos==1)
                         {
                           bouton1 = IMG_Load("Menu/Menu/bouton11.png");
-                          
                         }
                         else
                           bouton1 = IMG_Load("Menu/Menu/bouton1.png");
                         if(buttonpos==2)
                           {
                             bouton2 = IMG_Load("Menu/Menu/bouton22.png");
-                           
                           }
                         else
                           bouton2 = IMG_Load("Menu/Menu/bouton2.png");
@@ -427,37 +514,39 @@ void Smain (int *cond)
                       if(buttonpos<1)
                           buttonpos=3;
                          if(buttonpos==1)
-                        {
-                          bouton1 = IMG_Load("Menu/Menu/bouton11.png");
-                          
-                          
-                        }
+                          bouton1 = IMG_Load("Menu/Menu/bouton11.png"); 
                         else
                           bouton1 = IMG_Load("Menu/Menu/bouton1.png");
                         if(buttonpos==2)
-                          {
-                            bouton2 = IMG_Load("Menu/Menu/bouton22.png");
-                            
-                          }
+                          bouton2 = IMG_Load("Menu/Menu/bouton22.png");                            
                         else
                           bouton2 = IMG_Load("Menu/Menu/bouton2.png");
                         if(buttonpos==3)
-                          {
-
                           bouton3 = IMG_Load("Menu/Menu/bouton55.png");
-                           
-
-                          }
                         else
                           bouton3 = IMG_Load("Menu/Menu/bouton5.png");
-                        
                         break;
-                    
-                    
+                    case SDLK_RETURN :
+                    {
+                      if(buttonpos==1)
+                         { 
+                          *cond=1;
+                         ok=0;
+                         }
+                      if(buttonpos==2)
+                          { 
+                           *cond=2;
+                           ok=0;
+                         }
+                      if(buttonpos==3)
+                          { 
+                         *cond=3;
+                         ok=0;
+                         }
+                     }
+                     break;
                 }
-                break; 
              }
-
       case SDL_MOUSEMOTION :
                  {
                  if (positionBouton1.x <= event.motion.x && event.motion.x <= positionBouton1.x + bouton1->w && positionBouton1.y <= event.motion.y && event.motion.y <= positionBouton1.y + bouton1->h) 
@@ -719,7 +808,7 @@ void Score(int vie,int t_ennemis[],SDL_Rect *pospers)
     vie-=1;
   }
 }
-void Reunion(SDL_Surface *fenetre)
+void Reunion(SDLKey bouton,SDL_Surface *fenetre)
 {
   SDL_Surface *text;
   int boucle=1;
@@ -739,33 +828,25 @@ void Reunion(SDL_Surface *fenetre)
   posq.x=450;
   posq.y=250;
   restaurant=IMG_Load("map/kojina.png");
+  SDL_Delay(1000);
   question= IMG_Load("entities/liste.png");
+  //text = TTF_RenderText_Blended(police, "texte here", noir);
+  //SDL_BlitSurface(text,NULL, fenetre, &posq);
   SDL_BlitSurface(restaurant,NULL, fenetre, &posrestaurant);
-  SDL_Flip(fenetre);
+  SDL_BlitSurface(restaurant,NULL, fenetre, &posrestaurant);
   SDL_Delay(1000);
   SDL_BlitSurface(question,NULL, fenetre, &posquestion);
   SDL_Flip(fenetre);
-  SDL_Event ev;
-  text = TTF_RenderText_Blended(police, "texte here", noir);
-  SDL_BlitSurface(text,NULL, fenetre, &posq);
-  SDL_Flip(fenetre);
-  while(boucle!=0)
+
+    // TTF_CloseFont(police);
+    // TTF_Quit();
+  switch(bouton)
   {
-    SDL_WaitEvent(&ev);
-    if(ev.key.keysym.sym == SDLK_ESCAPE) 
-            boucle =0;
-    switch(ev.key.keysym.sym)
+    switch(event.key.keysym.sym)
     {
-      case SDLK_UP:
-        text = TTF_RenderText_Blended(police, "UP", noir);boucle--; break;
-      case SDLK_DOWN:
-        text = TTF_RenderText_Blended(police, "DOWN", noir);boucle++; break;
+
     }
-    SDL_BlitSurface(text,NULL, fenetre, &posq);
-    SDL_Flip(fenetre);
   }
-      TTF_CloseFont(police);
-    TTF_Quit();
 }
 
 void afficherscore(int score)
@@ -977,19 +1058,14 @@ void mvt_clavier (int *reun,SDL_Surface *fenetre, SDLKey bouton, SDL_Rect *bg, S
                       if(detecter_Pin(imageDeFondCollision, *pospers))
                       {
                         
-                        while(compteur!=0)
-                        {
                           SDL_WaitEvent(&e);
                           if(e.key.keysym.sym == SDLK_RETURN)
                           {
                             *reun=1;
-                            Reunion(fenetre);
+                            Reunion(bouton,fenetre);
                           }
                           else if(*reun=0)
                             compteur=0;
-                        }
-                        
-                        break;
                       }
                     *image=anim_right(mouvement);
                     (*mouvement)++;
@@ -1015,17 +1091,14 @@ void mvt_clavier (int *reun,SDL_Surface *fenetre, SDLKey bouton, SDL_Rect *bg, S
                     {
                       if(detecter_Pin(imageDeFondCollision, *pospers))
                       {
-                        while(compteur!=0)
-                        {
                           SDL_WaitEvent(&e);
                           if(e.key.keysym.sym == SDLK_ESCAPE)
                           {
                             *reun=1;
-                            Reunion(fenetre);
+                            Reunion(bouton,fenetre);
                           }
                           else if(*reun==0)
                             compteur=0;
-                        }
                       }
 
                     *image=anim_left(mouvement);
@@ -1051,18 +1124,14 @@ void mvt_clavier (int *reun,SDL_Surface *fenetre, SDLKey bouton, SDL_Rect *bg, S
                     {
                       if(detecter_Pin(imageDeFondCollision, *pospers))
                       {
-                        while(compteur!=0)
-                        {
                           SDL_WaitEvent(&e);
                           if(e.key.keysym.sym == SDLK_RETURN)
                           {
                             *reun=1;
-                            Reunion(fenetre);
+                            Reunion(bouton,fenetre);
                           }
                           else if(*reun=0)
                             compteur=0;
-                        }
-                        
                       }
 
                     *image=anim_up(mouvement);
@@ -1089,17 +1158,14 @@ void mvt_clavier (int *reun,SDL_Surface *fenetre, SDLKey bouton, SDL_Rect *bg, S
                     {
                       if(detecter_Pin(imageDeFondCollision, *pospers))
                       {
-                        while(compteur!=0)
-                        {
                           SDL_WaitEvent(&e);
                           if(e.key.keysym.sym == SDLK_RETURN)
                           {
                             *reun=1;
-                            Reunion(fenetre);
+                            Reunion(bouton,fenetre);
                           }
                           else if(*reun=0)
                             compteur=0;
-                        }
                       }
                     *image=anim_down(mouvement);
                     (*mouvement)++;
@@ -1161,19 +1227,18 @@ int main( int argc, char* args[] )
       bgX = -2600;
       bgY = -3400;
     }
-
-
-    if (action==2)
+    else if (action==2)
     {
       FILE *f=fopen("chemin","r");
      if (fgetc(f)!=EOF)
       fscanf (f," %d %d",&bgX,&bgY);   
     }
-
-if (action==5)
-  {quit=1;}
+    if(action==3)
+      option(fenetre);
+    else if (action==5)
+      quit=1;
     
-    
+    bg.x=bgX;
     bg.x=bgX;
     bg.y=bgY;
 
