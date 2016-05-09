@@ -1278,8 +1278,9 @@ void mvt_clavier (int *reun,SDL_Surface *fenetre, SDLKey bouton, SDL_Rect *bg, S
 
 
 int main( int argc, char* args[] )
-{
-    int quit = 0,mouvement=0,m;
+{ 
+
+    int quit = 0,mouvement=0,nbreunion=0;
     SDL_Rect positionpers,positiontexte,pospers,bg;
     int save=0;
     positionpers.x=638;
