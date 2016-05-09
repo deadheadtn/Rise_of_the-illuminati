@@ -808,47 +808,118 @@ void Score(int vie,int t_ennemis[],SDL_Rect *pospers)
     vie-=1;
   }
 }
-void Reunion(SDLKey bouton,SDL_Surface *fenetre)
+void Reunion()
 {
-  SDL_Surface *text;
-  int boucle=1;
-  SDL_Event event;
+  SDL_Surface *texte[]={NULL,NULL,NULL,NULL,NULL,NULL},*A=NULL,*B=NULL,*C=NULL,*A1=NULL,*B1=NULL,*C1=NULL,*S=NULL, *fenetre=NULL;
   TTF_Font *police = NULL;
-  TTF_Init();
-  police = TTF_OpenFont("Font/western.ttf", 32);
   SDL_Color noir = {0, 0, 0};
+  SDL_Init(SDL_INIT_VIDEO);
+  TTF_Init();
+  fenetre = SDL_SetVideoMode(1300, 700, 32, SDL_HWSURFACE | SDL_DOUBLEBUF);
+  police = TTF_OpenFont("western.ttf", 32);
+  SDL_Event event1;
   SDL_Surface *restaurant,*question;
-  int compteur=1;
-  SDL_Rect posrestaurant,posquestion,posq;
+  int compteur=1,R=0,Question=0;
+  SDL_Rect posquestion,posrestaurant,posq1uestion,posq1,posq2,posq3;
   SDL_Rect posperso;
-  posrestaurant.x= 200;
+  posquestion.x=450;
+  posquestion.y=200;
+  posrestaurant.x=200;
   posrestaurant.y=-100;
-  posquestion.x=400;
-  posquestion.y=0;
-  posq.x=450;
-  posq.y=250;
+  posq1uestion.x=400;
+  posq1uestion.y=0;
+  posq1.x=450;
+  posq1.y=250;
+  posq2.x=450;
+  posq2.y=350;
+  posq3.x=450;
+  posq3.y=450;
   restaurant=IMG_Load("map/kojina.png");
-  SDL_Delay(1000);
   question= IMG_Load("entities/liste.png");
-  //text = TTF_RenderText_Blended(police, "texte here", noir);
-  //SDL_BlitSurface(text,NULL, fenetre, &posq);
-  SDL_BlitSurface(restaurant,NULL, fenetre, &posrestaurant);
-  SDL_BlitSurface(restaurant,NULL, fenetre, &posrestaurant);
-  SDL_Delay(1000);
-  SDL_BlitSurface(question,NULL, fenetre, &posquestion);
-  SDL_Flip(fenetre);
-
-    // TTF_CloseFont(police);
-    // TTF_Quit();
-  switch(bouton)
+  A=IMG_Load("entities/pins/pin1.png");
+  S=IMG_Load("entities/star1.png");
+  texte[0] = TTF_RenderText_Blended(police, "question ?", noir);
+  texte[1] = TTF_RenderText_Blended(police, "question1 ?", noir);
+  texte[2] = TTF_RenderText_Blended(police, "question2 ?", noir);
+  texte[3] = TTF_RenderText_Blended(police, "question3 ?", noir);
+  texte[4] = TTF_RenderText_Blended(police, "question4 ?", noir);
+  B=A;
+  C=A;
+  while(compteur != 0) 
   {
-    switch(event.key.keysym.sym)
+    SDL_WaitEvent(&event1);
+    if(event1.key.keysym.sym == SDLK_ESCAPE) 
+      compteur =0;
+    switch (event1.type) 
     {
-
+       case SDL_MOUSEBUTTONUP :
+         if (event1.button.button == SDL_BUTTON_LEFT)
+         {
+           if (posq1.x <= event1.button.x && event1.button.x <= posq1.x + A->w && posq1.y <= event1.button.y && event1.button.y <= posq1.y + A->h)
+           {
+            A=S;
+            R=1;
+           }
+           if (posq2.x <= event1.button.x && event1.button.x <= posq2.x + B->w && posq2.y <= event1.button.y && event1.button.y <= posq2.y + B->h)
+           {
+            B=S;
+            R=2;
+           }
+           if (posq3.x <= event1.button.x && event1.button.x <= posq3.x + C->w && posq3.y <= event1.button.y && event1.button.y <= posq3.y + C->h)
+           {
+            C=S;
+            R=3;
+           }
+         }
     }
-  }
-}
+  SDL_BlitSurface(restaurant,NULL, fenetre, &posrestaurant);
+  SDL_BlitSurface(question,NULL, fenetre, &posq1uestion);
+  SDL_BlitSurface(A, NULL, fenetre, &posq1);
+  SDL_BlitSurface(B, NULL, fenetre, &posq2);
+  SDL_BlitSurface(C, NULL, fenetre, &posq3);
+  SDL_BlitSurface(texte[0], NULL,fenetre, &posquestion);
+  SDL_Flip(fenetre);
+  if(R==1 && Question==1)
+  {
 
+  }
+  else if(R==2 && Question==1)
+  {
+    
+  }
+  if(R==3 && Question==1)
+  {
+
+  }
+  else if(R==1 && Question==2)
+  {
+    
+  }
+  if(R==2 && Question==2)
+  {
+
+  }
+  else if(R==3 && Question==2)
+  {
+    
+  }
+  if(R==1 && Question==3)
+  {
+
+  }
+  else if(R==2 && Question==3)
+  {
+    
+  }
+  else if(R==3 && Question==3)
+  {
+    
+  }  
+  }
+  TTF_CloseFont(police);
+  TTF_Quit();
+  SDL_Quit();
+}
 void afficherscore(int score)
 {
   char ch[10];
@@ -935,7 +1006,7 @@ void mvt_arduino (SDL_Rect *bg, SDL_Surface *imageDeFondCollision, SDL_Rect *pos
 {
   char a;
   arduinoReadData(&a);
-  printf("%c",a);
+    ("%c",a);
   if(strcmp(&a,"r")==0)
                   { 
                     pospers->x=-bg->x+positionpers->x;
@@ -1057,12 +1128,11 @@ void mvt_clavier (int *reun,SDL_Surface *fenetre, SDLKey bouton, SDL_Rect *bg, S
                     {
                       if(detecter_Pin(imageDeFondCollision, *pospers))
                       {
-                        
                           SDL_WaitEvent(&e);
                           if(e.key.keysym.sym == SDLK_RETURN)
                           {
                             *reun=1;
-                            Reunion(bouton,fenetre);
+                            Reunion();
                           }
                           else if(*reun=0)
                             compteur=0;
@@ -1095,7 +1165,7 @@ void mvt_clavier (int *reun,SDL_Surface *fenetre, SDLKey bouton, SDL_Rect *bg, S
                           if(e.key.keysym.sym == SDLK_ESCAPE)
                           {
                             *reun=1;
-                            Reunion(bouton,fenetre);
+                            Reunion();
                           }
                           else if(*reun==0)
                             compteur=0;
@@ -1128,7 +1198,7 @@ void mvt_clavier (int *reun,SDL_Surface *fenetre, SDLKey bouton, SDL_Rect *bg, S
                           if(e.key.keysym.sym == SDLK_RETURN)
                           {
                             *reun=1;
-                            Reunion(bouton,fenetre);
+                            Reunion();
                           }
                           else if(*reun=0)
                             compteur=0;
@@ -1162,7 +1232,7 @@ void mvt_clavier (int *reun,SDL_Surface *fenetre, SDLKey bouton, SDL_Rect *bg, S
                           if(e.key.keysym.sym == SDLK_RETURN)
                           {
                             *reun=1;
-                            Reunion(bouton,fenetre);
+                            Reunion();
                           }
                           else if(*reun=0)
                             compteur=0;
