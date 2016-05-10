@@ -467,10 +467,10 @@ void Smain (int *cond)
     SDL_Init(SDL_INIT_VIDEO);
     SDL_EnableKeyRepeat (300,300);
     fenetre = SDL_SetVideoMode(1300,700, 32, SDL_HWSURFACE | SDL_DOUBLEBUF);
-    imageDeFond = IMG_Load("Menu/Menu/fond.bmp");
-    bouton1 = IMG_Load("Menu/Menu/bouton1.png");
-    bouton2 = IMG_Load("Menu/Menu/bouton2.png");
-    bouton3 = IMG_Load("Menu/Menu/bouton5.png");
+    imageDeFond = IMG_Load("Menu/menu_pause/fond.png");
+    bouton1 = IMG_Load("Menu/menu_pause/bouton1.png");
+    bouton2 = IMG_Load("Menu/menu_pause/bouton2.png");
+    bouton3 = IMG_Load("Menu/menu_pause/bouton5.png");
 
  while (ok)
     { SDL_WaitEvent(&event);
@@ -490,23 +490,23 @@ void Smain (int *cond)
                         buttonpos=1;
                         if(buttonpos==1)
                         {
-                          bouton1 = IMG_Load("Menu/Menu/bouton11.png");
+                          bouton1 = IMG_Load("Menu/menu_pause/bouton11.png");
                         }
                         else
-                          bouton1 = IMG_Load("Menu/Menu/bouton1.png");
+                          bouton1 = IMG_Load("Menu/menu_pause/bouton1.png");
                         if(buttonpos==2)
                           {
-                            bouton2 = IMG_Load("Menu/Menu/bouton22.png");
+                            bouton2 = IMG_Load("Menu/menu_pause/bouton22.png");
                           }
                         else
-                          bouton2 = IMG_Load("Menu/Menu/bouton2.png");
+                          bouton2 = IMG_Load("Menu/menu_pause/bouton2.png");
                         if(buttonpos==3)
                           {
-                          bouton3 = IMG_Load("Menu/Menu/bouton55.png");
+                          bouton3 = IMG_Load("Menu/menu_pause/bouton55.png");
                           
                           }
                         else
-                          bouton3 = IMG_Load("Menu/Menu/bouton5.png");
+                          bouton3 = IMG_Load("Menu/menu_pause/bouton5.png");
                         
                         break;
                     case SDLK_UP:
@@ -514,17 +514,17 @@ void Smain (int *cond)
                       if(buttonpos<1)
                           buttonpos=3;
                          if(buttonpos==1)
-                          bouton1 = IMG_Load("Menu/Menu/bouton11.png"); 
+                          bouton1 = IMG_Load("Menu/menu_pause/bouton11.png"); 
                         else
-                          bouton1 = IMG_Load("Menu/Menu/bouton1.png");
+                          bouton1 = IMG_Load("Menu/menu_pause/bouton1.png");
                         if(buttonpos==2)
-                          bouton2 = IMG_Load("Menu/Menu/bouton22.png");                            
+                          bouton2 = IMG_Load("Menu/menu_pause/bouton22.png");                            
                         else
-                          bouton2 = IMG_Load("Menu/Menu/bouton2.png");
+                          bouton2 = IMG_Load("Menu/menu_pause/bouton2.png");
                         if(buttonpos==3)
-                          bouton3 = IMG_Load("Menu/Menu/bouton55.png");
+                          bouton3 = IMG_Load("Menu/menu_pause/bouton55.png");
                         else
-                          bouton3 = IMG_Load("Menu/Menu/bouton5.png");
+                          bouton3 = IMG_Load("Menu/menu_pause/bouton5.png");
                         break;
                     case SDLK_RETURN :
                     {
@@ -551,7 +551,7 @@ void Smain (int *cond)
                  {
                  if (positionBouton1.x <= event.motion.x && event.motion.x <= positionBouton1.x + bouton1->w && positionBouton1.y <= event.motion.y && event.motion.y <= positionBouton1.y + bouton1->h) 
                       {
-                          bouton1 = IMG_Load("Menu/Menu/bouton11.png");
+                          bouton1 = IMG_Load("Menu/menu_pause/bouton11.png");
                           if (nb_press_b1 ==0)
                           {
                           
@@ -560,13 +560,13 @@ void Smain (int *cond)
                         }
                         else
                           {
-                            bouton1 = IMG_Load("Menu/Menu/bouton1.png");
+                            bouton1 = IMG_Load("Menu/menu_pause/bouton1.png");
                             nb_press_b1=0;
                           }
                  
                   if (positionBouton2.x <= event.motion.x && event.motion.x <= positionBouton2.x + bouton2->w && positionBouton2.y <= event.motion.y && event.motion.y <= positionBouton2.y + bouton2->h) 
                       {
-                            bouton2 = IMG_Load("Menu/Menu/bouton22.png");
+                            bouton2 = IMG_Load("Menu/menu_pause/bouton22.png");
                          if (nb_press_b2 ==0)
                           {
                             
@@ -575,12 +575,12 @@ void Smain (int *cond)
                           }
                         else
                         {
-                          bouton2 = IMG_Load("Menu/Menu/bouton2.png");
+                          bouton2 = IMG_Load("Menu/menu_pause/bouton2.png");
                           nb_press_b2=0;
                         }
                   if (positionBouton3.x <= event.motion.x && event.motion.x <= positionBouton3.x + bouton3->w && positionBouton3.y <= event.motion.y && event.motion.y <= positionBouton3.y + bouton3->h) 
                       {  
-                          bouton3 = IMG_Load("Menu/Menu/bouton55.png");
+                          bouton3 = IMG_Load("Menu/menu_pause/bouton55.png");
                           if (nb_press_b3 ==0)
                           {
                             
@@ -589,7 +589,7 @@ void Smain (int *cond)
                           }
                         else
                          {
-                          bouton3 = IMG_Load("Menu/Menu/bouton5.png");
+                          bouton3 = IMG_Load("Menu/menu_pause/bouton5.png");
                           nb_press_b3=0;
                          }
                   }       
@@ -633,6 +633,7 @@ void Smain (int *cond)
     SDL_FreeSurface(bouton2);
     SDL_FreeSurface(bouton3);
     SDL_FillRect(fenetre,NULL,0);
+    SDL_Quit() ;
     
 }//mteehom kol
 
@@ -1269,7 +1270,7 @@ void mvt_clavier (int *reun,SDL_Surface *fenetre, SDLKey bouton, SDL_Rect *bg, S
                   if (cond==3)
                     {
                       *ok=1;
-                      SDL_QUIT;
+                      SDL_Quit;
                     }
                   }
                 break;
