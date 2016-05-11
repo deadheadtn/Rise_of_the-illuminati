@@ -1,6 +1,8 @@
 var searchData=
 [
   ['afficher_5fennemi',['afficher_ennemi',['../main_8c.html#aa0e9e94095fa1121dec0aae2d9512759',1,'main.c']]],
+  ['afficherpin',['afficherpin',['../main_8c.html#a540b69bbd3c9f6c0b15aaef898d0535e',1,'main.c']]],
+  ['afficherscore',['afficherscore',['../main_8c.html#a320de47948ac1ffb0b721f637f28fc4a',1,'main.c']]],
   ['anim_5fdown',['anim_down',['../main_8c.html#aa21866949710887de7c0dd5bb1a30378',1,'main.c']]],
   ['anim_5fleft',['anim_left',['../main_8c.html#a13b737c365398803efde61c82d2eff21',1,'main.c']]],
   ['anim_5fright',['anim_right',['../main_8c.html#ac1c080d2479fb838b42bd3d95ce40d90',1,'main.c']]],

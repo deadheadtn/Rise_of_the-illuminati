@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['init',['init',['../main_8c.html#a05848de25ac2dbec233935058a1d24b4',1,'main.c']]]
+  ['clean_5fup',['clean_up',['../main_8c.html#ada7f892aa09adca3647631590ca1beb0',1,'main.c']]]
 ];
