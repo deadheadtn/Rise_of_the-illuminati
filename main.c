@@ -1130,6 +1130,7 @@ void mvt_clavier (int *reun,SDL_Surface *fenetre, SDLKey bouton, SDL_Rect *bg, S
   SDL_Event e;
   int compteur=1;
   int cond;
+  int action;
    switch(bouton)
                 {
                   case SDLK_RIGHT:
@@ -1275,8 +1276,9 @@ void mvt_clavier (int *reun,SDL_Surface *fenetre, SDLKey bouton, SDL_Rect *bg, S
                     }
                   if (cond==2)
                     {
+                       Pmenu(&action) ;
                     *save=1;
-                    *ok=1;
+                   
                     }
                   if (cond==3)
                     {
