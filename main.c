@@ -452,7 +452,7 @@ void Smain (int *cond)
 
 
  
- SDL_Surface *fenetre = NULL, *imageDeFond = NULL, *bouton1 = NULL, *bouton2 = NULL, *bouton3 = NULL;
+ SDL_Surface *fenetre1 = NULL, *imageDeFond = NULL, *bouton1 = NULL, *bouton2 = NULL, *bouton3 = NULL;
  SDL_Rect positionFond, positionBouton1, positionBouton2, positionBouton3, positionTexte;
  positionFond.x = 0;
     positionFond.y = 0;
@@ -466,7 +466,7 @@ void Smain (int *cond)
     positionTexte.y= 300;
     SDL_Init(SDL_INIT_VIDEO);
     SDL_EnableKeyRepeat (300,300);
-    fenetre = SDL_SetVideoMode(1300,700, 32, SDL_HWSURFACE | SDL_DOUBLEBUF);
+    fenetre1 = SDL_SetVideoMode(1300,700, 32, SDL_HWSURFACE | SDL_DOUBLEBUF);
     imageDeFond = IMG_Load("Menu/menu_pause/fond.png");
     bouton1 = IMG_Load("Menu/menu_pause/bouton1.png");
     bouton2 = IMG_Load("Menu/menu_pause/bouton2.png");
@@ -509,25 +509,33 @@ void Smain (int *cond)
                           bouton3 = IMG_Load("Menu/menu_pause/bouton5.png");
                         
                         break;
+
                     case SDLK_UP:
                       buttonpos-=1;
                       if(buttonpos<1)
                           buttonpos=3;
                          if(buttonpos==1)
-                          bouton1 = IMG_Load("Menu/menu_pause/bouton11.png"); 
+                         {
+                          bouton1 = IMG_Load("Menu/menu_pause/bouton11.png");
+                         } 
                         else
                           bouton1 = IMG_Load("Menu/menu_pause/bouton1.png");
                         if(buttonpos==2)
-                          bouton2 = IMG_Load("Menu/menu_pause/bouton22.png");                            
+                          {
+                            bouton2 = IMG_Load("Menu/menu_pause/bouton22.png"); 
+                          }                           
                         else
                           bouton2 = IMG_Load("Menu/menu_pause/bouton2.png");
                         if(buttonpos==3)
+                          {
                           bouton3 = IMG_Load("Menu/menu_pause/bouton55.png");
+                        }
                         else
                           bouton3 = IMG_Load("Menu/menu_pause/bouton5.png");
                         break;
+
                     case SDLK_RETURN :
-                    {
+                    
                       if(buttonpos==1)
                          { 
                           *cond=1;
@@ -544,9 +552,8 @@ void Smain (int *cond)
                          ok=0;
                          }
                      }
-                     break;
-                }
-             }
+                     break;}
+               
       case SDL_MOUSEMOTION :
                  {
                  if (positionBouton1.x <= event.motion.x && event.motion.x <= positionBouton1.x + bouton1->w && positionBouton1.y <= event.motion.y && event.motion.y <= positionBouton1.y + bouton1->h) 
@@ -595,14 +602,16 @@ void Smain (int *cond)
                   }       
                 break;
         case SDL_MOUSEBUTTONUP :
-            {
+            
                       if (event.button.button == SDL_BUTTON_LEFT)
                       {
                        
                         if (positionBouton1.x <= event.button.x && event.button.x <= positionBouton1.x + bouton1->w && positionBouton1.y <= event.button.y && event.button.y <= positionBouton1.y + bouton1->h) 
                           { 
-                       *cond=1;   
+                       *cond=1; 
+
                        ok=0;
+
                            }
                  
                          else if (positionBouton2.x <= event.button.x && event.button.x <= positionBouton2.x + bouton2->w && positionBouton2.y <= event.button.y && event.button.y <= positionBouton2.y + bouton2->h) 
@@ -618,22 +627,24 @@ void Smain (int *cond)
                           ok=0;
                           }  
                       }
-              }
+              
                  break;
-    }//mta3 l'event
-     SDL_BlitSurface(imageDeFond, NULL, fenetre, &positionFond);
-     SDL_BlitSurface(bouton1, NULL, fenetre, &positionBouton1);
-     SDL_BlitSurface(bouton2, NULL, fenetre, &positionBouton2);
-     SDL_BlitSurface(bouton3, NULL, fenetre, &positionBouton3);
-     SDL_Flip(fenetre);
+
+    } 
+    //mta3 l' event
+     SDL_BlitSurface(imageDeFond, NULL, fenetre1, &positionFond);
+     SDL_BlitSurface(bouton1, NULL, fenetre1, &positionBouton1);
+     SDL_BlitSurface(bouton2, NULL, fenetre1, &positionBouton2);
+     SDL_BlitSurface(bouton3, NULL, fenetre1, &positionBouton3);
+     SDL_Flip(fenetre1);
 
     }//mta3 el while lekbira
     SDL_FreeSurface(imageDeFond);
     SDL_FreeSurface(bouton1);
     SDL_FreeSurface(bouton2);
     SDL_FreeSurface(bouton3);
-    SDL_FillRect(fenetre,NULL,0);
-    SDL_Quit() ;
+    SDL_FillRect(fenetre1,NULL,0);
+   // SDL_Quit() ;
     
 }//mteehom kol
 
@@ -1270,7 +1281,7 @@ void mvt_clavier (int *reun,SDL_Surface *fenetre, SDLKey bouton, SDL_Rect *bg, S
                   if (cond==3)
                     {
                       *ok=1;
-                      SDL_Quit;
+                      SDL_QUIT;
                     }
                   }
                 break;
@@ -1367,4 +1378,5 @@ sauvegarde (&save,&bg);
 }
 
     clean_up();
+
 }
