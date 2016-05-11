@@ -1,3 +1,9 @@
+
+/**
+
+* @file : main.c
+
+*/
 #include "SDL/SDL.h"
 #include "SDL/SDL_image.h"
 #include "stdio.h"
@@ -115,7 +121,17 @@ void option()
     SDL_FreeSurface(imageDeFond);
 }
 
+/**
 
+* @brief Le menu principal qui s'affiche au lancement du jeu
+
+* @param action 
+
+
+
+* @return *action : Condition selon le bouton cliqué
+
+*/
 int Pmenu(int *action)
 {
     SDL_Surface *fenetre = NULL,*bouton11 = NULL, *bouton22 = NULL, *bouton33 = NULL, *bouton44 = NULL, *bouton55 = NULL,*bouton555=NULL,*bouton444=NULL,*bouton333=NULL,*bouton222=NULL,*bouton111=NULL, *imageDeFond = NULL, *bouton1 = NULL, *bouton2 = NULL, *bouton3 = NULL, *bouton4 = NULL, *bouton5 = NULL, *texte = NULL;
@@ -444,7 +460,17 @@ int Pmenu(int *action)
 
 
 
+/**
 
+* @brief Le sous menu qui s'afficher en cliquant sur echap dans le jeu
+
+* @param cond condition
+
+
+
+* @return *cond : Condition selon le bouton cliqué
+
+*/
 void Smain (int *cond)
 { 
 
@@ -649,7 +675,17 @@ void Smain (int *cond)
 }//mteehom kol
 
 
+/**
 
+* @brief 
+
+* @param x
+* @param y
+
+
+* @return Void
+
+*/
 void apply_surface( int x, int y, SDL_Surface* source, SDL_Surface* destination)
 {
     SDL_Rect offset;
@@ -658,6 +694,15 @@ void apply_surface( int x, int y, SDL_Surface* source, SDL_Surface* destination)
     SDL_BlitSurface( source, NULL, destination, &offset );
 }
 
+
+/**
+
+* @brief Initialisation (video , texte , ..)
+
+
+* @return 1 : en cas de succes d'initialisation
+* @return 0 : en cas d'echec d'initialisation
+*/
  int init()
  {
     if( SDL_Init( SDL_INIT_EVERYTHING ) == -1 )
@@ -667,6 +712,21 @@ void apply_surface( int x, int y, SDL_Surface* source, SDL_Surface* destination)
     fenetre = SDL_SetVideoMode( fenetre_WIDTH, fenetre_HEIGHT, fenetre_BPP, SDL_SWSURFACE );
     return 1;
  }
+
+
+
+/**
+
+* @brief Optimization d'une image
+
+* @param nom : chemin de l'image
+
+
+
+* @return image optimizée
+
+*/
+
  SDL_Surface *load_image(char *nom)
  {
     SDL_Surface* loadedImage = NULL;
@@ -683,6 +743,18 @@ void apply_surface( int x, int y, SDL_Surface* source, SDL_Surface* destination)
     }
     return optimizedImage;
  }
+
+ /**
+
+* @brief Charger les images (La map , le background concernant la collision)
+
+
+
+
+
+* @return 0 en cas d'erreur 1 en cas de succes
+
+*/
  int load_files()
   {
     background = load_image( "map/map1.jpg" );
@@ -694,11 +766,16 @@ void apply_surface( int x, int y, SDL_Surface* source, SDL_Surface* destination)
     return 1;
  }
 
+
+
  void clean_up()
  {
     SDL_FreeSurface( background );
     SDL_Quit();
  }
+
+
+
  SDL_Rect limit(int x, int y)
  {
   SDL_Rect offset;
@@ -714,6 +791,20 @@ void apply_surface( int x, int y, SDL_Surface* source, SDL_Surface* destination)
   offset.y = y;
   return offset;
  }
+
+/**
+
+* @brief Animation du personnage
+
+* @param *mouvement : gauche , droite , haut , bas
+
+
+
+* @return animation
+
+*/
+
+
  SDL_Surface *anim_right(int *mouvement)
  {
   SDL_Surface *perso_right[]={NULL,NULL,NULL,NULL};
@@ -726,6 +817,19 @@ void apply_surface( int x, int y, SDL_Surface* source, SDL_Surface* destination)
   return perso_right[*mouvement];
  }
 
+/**
+
+* @brief Animation du personnage
+
+* @param *mouvement : gauche , droite , haut , bas
+
+
+
+* @return animation
+
+*/
+
+
  SDL_Surface *anim_left(int *mouvement)
  {
   SDL_Surface *perso_right[]={NULL,NULL,NULL,NULL};
@@ -737,6 +841,21 @@ void apply_surface( int x, int y, SDL_Surface* source, SDL_Surface* destination)
     {*mouvement=0;}
   return perso_right[*mouvement];
  }
+
+
+/**
+
+* @brief Animation du personnage
+
+* @param *mouvement : gauche , droite , haut , bas
+
+
+
+* @return animation
+
+*/
+
+
  SDL_Surface *anim_up(int *mouvement)
  {
   SDL_Surface *perso_right[]={NULL,NULL,NULL,NULL};
@@ -748,6 +867,19 @@ void apply_surface( int x, int y, SDL_Surface* source, SDL_Surface* destination)
     {*mouvement=0;}
   return perso_right[*mouvement];
 }
+
+/**
+
+* @brief Animation du personnage
+
+* @param *mouvement : gauche , droite , haut , bas
+
+
+
+* @return animation
+
+*/
+
 SDL_Surface *anim_down(int *mouvement)
 {
   SDL_Surface *perso_right[]={NULL,NULL,NULL,NULL};
@@ -759,7 +891,10 @@ SDL_Surface *anim_down(int *mouvement)
     *mouvement=0;
   return perso_right[*mouvement];
 }
-//
+
+
+
+
 SDL_Color GetPixel (SDL_Surface* pSurface, int x, int y)
 {
 
@@ -772,7 +907,17 @@ SDL_Color GetPixel (SDL_Surface* pSurface, int x, int y)
   SDL_GetRGB (col, pSurface->format, &color.r, &color.g, &color.b);
   return (color);
 }
+/**
 
+* @brief detecteur de collision
+
+* @param *image : image du background de la collision
+* @param position : position du personnage
+
+
+* @return animation
+
+*/
 int detecter_collision_background (SDL_Surface *image, SDL_Rect position)
 {
   SDL_Color color;
@@ -780,6 +925,10 @@ int detecter_collision_background (SDL_Surface *image, SDL_Rect position)
   if (color.r==255 && color.g==255 && color.b==255) return 1;
   return 0;
 }
+
+
+
+
 int detecter_Pin (SDL_Surface *image, SDL_Rect position)
 {
   SDL_Color color;
@@ -787,6 +936,20 @@ int detecter_Pin (SDL_Surface *image, SDL_Rect position)
   if (color.r==0 && color.g==0 && color.b==0) return 1;
   return 0;
 }
+
+/**
+
+* @brief detecter si le personnage est placé devant le restaurant (dans le jeu)
+
+* @param *image : image du background de l'emplacement du restaurant
+* @param position : position du personnage
+
+
+* @return 1 : si oui
+* @return 1 : si non
+
+*/
+
 int detecter_collision_restaurant (SDL_Surface *image, SDL_Rect position)
 {
   SDL_Color color;
@@ -795,7 +958,18 @@ int detecter_collision_restaurant (SDL_Surface *image, SDL_Rect position)
   return 0;
 }
 
-void sauvegarde (int *save,SDL_Rect *bg)
+
+/**
+
+* @brief Sauvegarde
+
+* @param *bg : emplacement du personnage qui sera sauvegardé
+
+
+
+*/
+
+void sauvegarde (SDL_Rect *bg)
 {
 FILE *f=fopen("chemin","w");
   fprintf (f," %d %d",bg->x,bg->y);
@@ -820,6 +994,14 @@ void Score(int vie,int t_ennemis[],SDL_Rect *pospers)
     vie-=1;
   }
 }
+
+/**
+
+* @brief Assure l'entrée du personnage dans le restaurant (jeu) et affiche l'ensemble de question que lui seront posées
+
+*/
+
+
 void Reunion()
 {
   SDL_Surface *texte[]={NULL,NULL,NULL,NULL,NULL,NULL},*A=NULL,*B=NULL,*C=NULL,*A1=NULL,*B1=NULL,*C1=NULL,*S=NULL, *fenetre=NULL;
@@ -946,6 +1128,18 @@ void afficherscore(int score)
   scoring=TTF_RenderText_Blended(police, ch, noir);
   SDL_BlitSurface(scoring, NULL, fenetre,&poscore);
 }
+/**
+
+* @brief Afficher le score au dessus du personnage dans le jeu
+
+* @param score : le score
+
+
+
+* @return void
+
+
+*/
 
 void pershud(int score)
 {
@@ -976,6 +1170,13 @@ void afficherpin(SDL_Surface* destination)
   SDL_BlitSurface(pin, NULL, destination, &pospin);
 }
 
+/**
+
+* @brief affichage des ennemies
+
+
+
+*/
 
 void afficher_ennemi ( SDL_Surface *car1, SDL_Surface *car2, SDL_Surface *fenetre, SDL_Rect t_ennemis[] )
 {
@@ -987,6 +1188,19 @@ void afficher_ennemi ( SDL_Surface *car1, SDL_Surface *car2, SDL_Surface *fenetr
      SDL_BlitSurface(car2, NULL, fenetre, &t_ennemis[5]);
      SDL_BlitSurface(car2, NULL, fenetre, &t_ennemis[6]);
 }
+/**
+
+* @brief Lire les données depuis Arduino
+
+* @param *c : donnée
+
+
+
+* @return 0 : si oui
+* @return -1 : si non
+
+*/
+
 int arduinoReadData(char *c)
 {
     char chemin[]="/dev/ttyACM0";
@@ -1000,6 +1214,21 @@ int arduinoReadData(char *c)
     fclose(f);
     return(0);
 }
+
+/**
+
+* @brief Envoyer des données vers Arduino
+
+* @param *c : donnée
+
+
+
+* @return 0 : si oui
+* @return -1 : si non
+
+*/
+
+
 int arduinoWriteData(int k)
 {
     char chemin[]="/dev/ttyACM0";
@@ -1014,6 +1243,14 @@ int arduinoWriteData(int k)
 
     return(0);
 }
+/**
+
+* @brief Deplacement avec la manette (Arduino)
+
+
+
+*/
+
 void mvt_arduino (SDL_Rect *bg, SDL_Surface *imageDeFondCollision, SDL_Rect *positionpers, int *mouvement, SDL_Rect *pospers, SDL_Surface **image)
 {
   char a;
@@ -1124,7 +1361,17 @@ void mvt_arduino (SDL_Rect *bg, SDL_Surface *imageDeFondCollision, SDL_Rect *pos
 
 }
 
+/**
 
+* @brief L'ensemble d'actions assurés par le clavier
+
+* @param ok : sortie de la boucle
+
+
+
+
+
+*/
 void mvt_clavier (int *reun,SDL_Surface *fenetre, SDLKey bouton, SDL_Rect *bg, SDL_Surface *imageDeFondCollision, SDL_Rect *positionpers, int *mouvement, SDL_Rect *pospers, SDL_Surface **image,int *ok,int *save)
 {
   SDL_Event e;
@@ -1276,8 +1523,9 @@ void mvt_clavier (int *reun,SDL_Surface *fenetre, SDLKey bouton, SDL_Rect *bg, S
                     }
                   if (cond==2)
                     {
-                       Pmenu(&action) ;
+                      
                     *save=1;
+                    *ok=1;
                    
                     }
                   if (cond==3)
@@ -1290,7 +1538,12 @@ void mvt_clavier (int *reun,SDL_Surface *fenetre, SDLKey bouton, SDL_Rect *bg, S
                 }
      }
 
+/**
 
+* @brief GameLoop
+
+
+*/
 int main( int argc, char* args[] )
 { 
 
@@ -1375,7 +1628,7 @@ int main( int argc, char* args[] )
       if (save==1)
 {
 
-sauvegarde (&save,&bg);
+sauvegarde (&bg);
 
 }
 
