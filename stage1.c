@@ -83,13 +83,18 @@ void vitesse (int ok, int *vit1, int *vit2, int *vit3, int *vit4)
 
 }
 
-void mvt_clavier (int *reun,SDLKey bouton, SDL_Rect *bg, SDL_Surface *imageDeFondCollision, SDL_Rect *positionpers, int *mouvement, SDL_Rect *pospers, SDL_Surface **image, int *vit1, int *vit2, int *vit3, int *vit4, int *ok, SDL_Rect *positionennemi, int *dir, int *quit, int *save)
+void mvt_clavier (SDLKey bouton, SDL_Rect *bg, SDL_Surface *imageDeFondCollision, SDL_Rect *positionpers, int *mouvement, SDL_Rect *pospers, SDL_Surface **image, int *vit1, int *vit2, int *vit3, int *vit4, int *ok, SDL_Rect *positionennemi, int *dir, int *quit, int *save)
 {
   int i,cond;
-  SDL_Event e;
-  int compteur=1;
    switch(bouton)
                 {
+                  case SDLK_RETURN :
+                  if(detecter_Pin(imageDeFondCollision, *pospers))
+                      {
+                        Reunion();
+                        printf("1");
+                      }
+                      break;
                   case SDLK_RIGHT:
                   { *dir=1;
                     init_vitesse (vit1,vit2,vit3,vit4);
@@ -97,17 +102,6 @@ void mvt_clavier (int *reun,SDLKey bouton, SDL_Rect *bg, SDL_Surface *imageDeFon
                     pospers->y=-bg->y+positionpers->y;
                     if (!detecter_collision_background (imageDeFondCollision, *pospers))
                     {
-                      if(detecter_Pin(imageDeFondCollision, *pospers))
-                      {
-                        SDL_WaitEvent(&e);
-                            if(e.key.keysym.sym == SDLK_RETURN)
-                            {
-                              *reun=1;
-                              Reunion();
-                            }
-                            else if(*reun=0)
-                              compteur=0;
-                      }
                     *image=anim_right(mouvement);
                     (*mouvement)++;
                     bg->x -= 3;
@@ -131,6 +125,7 @@ void mvt_clavier (int *reun,SDLKey bouton, SDL_Rect *bg, SDL_Surface *imageDeFon
                     }
                     if(bg->x <-7000)
                       bg->x+=2;
+                    
                   }
                   break;
                   case SDLK_LEFT:
@@ -140,17 +135,6 @@ void mvt_clavier (int *reun,SDLKey bouton, SDL_Rect *bg, SDL_Surface *imageDeFon
                     pospers->y=-bg->y+positionpers->y;
                     if (!detecter_collision_background (imageDeFondCollision, *pospers))
                     {
-                      if(detecter_Pin(imageDeFondCollision, *pospers))
-                      {
-                        SDL_WaitEvent(&e);
-                            if(e.key.keysym.sym == SDLK_RETURN)
-                            {
-                              *reun=1;
-                              Reunion();
-                            }
-                            else if(*reun=0)
-                              compteur=0;
-                      }
                     *image=anim_left(mouvement);
                     (*mouvement)++;
                     bg->x += 3;
@@ -182,17 +166,6 @@ void mvt_clavier (int *reun,SDLKey bouton, SDL_Rect *bg, SDL_Surface *imageDeFon
                     pospers->y=-bg->y+positionpers->y;
                     if (!detecter_collision_background (imageDeFondCollision, *pospers))
                     {
-                      if(detecter_Pin(imageDeFondCollision, *pospers))
-                      {
-                        SDL_WaitEvent(&e);
-                            if(e.key.keysym.sym == SDLK_RETURN)
-                            {
-                              *reun=1;
-                              Reunion();
-                            }
-                            else if(*reun=0)
-                              compteur=0;
-                      }
                     *image=anim_up(mouvement);
                     (*mouvement)++;
                     bg->x += 3;
@@ -225,17 +198,6 @@ void mvt_clavier (int *reun,SDLKey bouton, SDL_Rect *bg, SDL_Surface *imageDeFon
                     pospers->y=-bg->y+positionpers->y;
                     if (!detecter_collision_background (imageDeFondCollision, *pospers))
                     {
-                      if(detecter_Pin(imageDeFondCollision, *pospers))
-                      {
-                        SDL_WaitEvent(&e);
-                            if(e.key.keysym.sym == SDLK_RETURN)
-                            {
-                              *reun=1;
-                              Reunion();
-                            }
-                            else if(*reun=0)
-                              compteur=0;
-                      }
                     *image=anim_down(mouvement);
                     (*mouvement)++;
                     bg->x -= 3;
@@ -267,17 +229,6 @@ void mvt_clavier (int *reun,SDLKey bouton, SDL_Rect *bg, SDL_Surface *imageDeFon
                     pospers->y=-bg->y+positionpers->y;
                     if (!detecter_collision_background (imageDeFondCollision, *pospers))
                     {
-                      if(detecter_Pin(imageDeFondCollision, *pospers))
-                      {
-                        SDL_WaitEvent(&e);
-                            if(e.key.keysym.sym == SDLK_RETURN)
-                            {
-                              *reun=1;
-                              Reunion();
-                            }
-                            else if(*reun=0)
-                              compteur=0;
-                      }
                     *image=anim_right(mouvement);
                     (*mouvement)++;
                     *ok=-(*ok);
@@ -319,17 +270,6 @@ void mvt_clavier (int *reun,SDLKey bouton, SDL_Rect *bg, SDL_Surface *imageDeFon
                     pospers->y=-bg->y+positionpers->y;
                     if (!detecter_collision_background (imageDeFondCollision, *pospers))
                     {
-                      if(detecter_Pin(imageDeFondCollision, *pospers))
-                      {
-                        SDL_WaitEvent(&e);
-                            if(e.key.keysym.sym == SDLK_RETURN)
-                            {
-                              *reun=1;
-                              Reunion();
-                            }
-                            else if(*reun=0)
-                              compteur=0;
-                      }
                     *image=anim_left(mouvement);
                     (*mouvement)++;
                     *ok=-(*ok);
@@ -371,17 +311,6 @@ void mvt_clavier (int *reun,SDLKey bouton, SDL_Rect *bg, SDL_Surface *imageDeFon
                     pospers->y=-bg->y+positionpers->y;
                     if (!detecter_collision_background (imageDeFondCollision, *pospers))
                     {
-                      if(detecter_Pin(imageDeFondCollision, *pospers))
-                      {
-                        SDL_WaitEvent(&e);
-                            if(e.key.keysym.sym == SDLK_RETURN)
-                            {
-                              *reun=1;
-                              Reunion();
-                            }
-                            else if(*reun=0)
-                              compteur=0;
-                      }
                     *image=anim_up(mouvement);
                     (*mouvement)++;
                     *ok=-(*ok);
@@ -422,17 +351,6 @@ void mvt_clavier (int *reun,SDLKey bouton, SDL_Rect *bg, SDL_Surface *imageDeFon
                     pospers->y=-bg->y+positionpers->y;
                     if (!detecter_collision_background (imageDeFondCollision, *pospers))
                     {
-                      if(detecter_Pin(imageDeFondCollision, *pospers))
-                      {
-                        SDL_WaitEvent(&e);
-                            if(e.key.keysym.sym == SDLK_RETURN)
-                            {
-                              *reun=1;
-                              Reunion();
-                            }
-                            else if(*reun=0)
-                              compteur=0;
-                      }
                     *image=anim_down(mouvement);
                     (*mouvement)++;
                     *ok=-(*ok);
@@ -497,7 +415,7 @@ void mvt_clavier (int *reun,SDLKey bouton, SDL_Rect *bg, SDL_Surface *imageDeFon
               //mouvement_souris(X,Y,&pospers,imageDeFondCollision);
 }
 
-  void sauvegarde (int *save,SDL_Rect *bg)
+void sauvegarde (int *save,SDL_Rect *bg)
   {
   FILE *f=fopen("chemin","w");
     fprintf (f," %d %d",bg->x,bg->y);
@@ -645,7 +563,7 @@ void mvt_clavier (int *reun,SDLKey bouton, SDL_Rect *bg, SDL_Surface *imageDeFon
 
       return(0);
   }
-  void mvt_arduino (int *reun,SDL_Rect *bg, SDL_Surface *imageDeFondCollision, SDL_Rect *positionpers, int *mouvement, SDL_Rect *pospers, SDL_Surface **image)
+  void mvt_arduino (SDL_Rect *bg, SDL_Surface *imageDeFondCollision, SDL_Rect *positionpers, int *mouvement, SDL_Rect *pospers, SDL_Surface **image)
   {
     char a;
     arduinoReadData(&a);

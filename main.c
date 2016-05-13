@@ -14,7 +14,7 @@
 int main( int argc, char* args[] )
 {
     int quit = 0,mouvement=0,m,nbreunion=0,save=0;
-    int n,intr=0;
+    int reun=0,n,intr=0;
     SDL_Rect positionpers,positiontexte,pospers,bg, positionennemi;
     SDL_Surface *background = NULL,*imageDeFondCollision=NULL, *fenetre = NULL, *ennemi = NULL;
     positionpers.x=638;
@@ -23,29 +23,9 @@ int main( int argc, char* args[] )
     positionennemi.y=338;
     positiontexte.x=0;
     positiontexte.y=0;
-    int score=0, vit1=1, vit2=1,vit3=1,vit4=1,ok=1,dir,menup,action,reun=0;
-    menup=Pmenu(&action) ;
-    int bgX, bgY;
-    if (action==1)
-      {
-        FILE *f=fopen("chemin","w");
-        bgX = -2500;
-        bgY = -3350;
-        fprintf(f,"%d %d %d",score,bgX,bgY);
-      }
-      else if (action==2)
-      {
-        FILE *f=fopen("chemin","r");
-       if (fgetc(f)!=EOF)
-        fscanf (f," %d %d",&bgX,&bgY);   
-      }
-      if(action==3)
-        option(fenetre);
-      else if (action==5)
-        quit=1;
+    int score=0, vit1=1, vit2=1,vit3=1,vit4=1,ok=1,dir,menup,action;
     
-    bg.x=bgX;
-    bg.y=bgY;
+    int bgX, bgY;
     SDL_Event event;
     SDL_Surface *image=NULL;
     TTF_Font *police = NULL;
@@ -57,10 +37,40 @@ int main( int argc, char* args[] )
     double d,d1;
     STATE S=WAITING;
     ennemi = IMG_Load( "dos.png" );
-    if( init(&fenetre) == 0 )
+    
+
+
+
+    menup=Pmenu(&action) ;
+    
+    if (action==1)
+      {
+        FILE *f=fopen("chemin","w");
+        bgX = -2500;
+        bgY = -3350;
+        fprintf(f,"%d %d %d",score,bgX,bgY);
+      }
+      if (action==2)
+      {
+        FILE *f=fopen("chemin","r");
+       if (fgetc(f)!=EOF)
+        fscanf (f," %d %d",&bgX,&bgY);   
+      }
+      if(action==3)
+        option(fenetre);
+      if (action==5)
+        quit=1;
+   
+    bg.x=bgX;
+    bg.y=bgY;
+   
+    if (quit==0)
+    {
+    if( init(&fenetre) == 0)
     {
         return 1;
     }
+     
     if( load_files(&background,&imageDeFondCollision) == 0 )
     {
         return 1;
@@ -76,8 +86,8 @@ int main( int argc, char* args[] )
                quit=1; break;
              case SDL_KEYDOWN :
              {
-              mvt_clavier (&reun,event.key.keysym.sym, &bg,imageDeFondCollision,&positionpers,&mouvement,&pospers, &image, &vit1, &vit2, &vit3, &vit4,&ok,&positionennemi,&dir,&quit,&save);
-              //mvt_arduino (&reun,&bg,imageDeFondCollision,&positionpers,&mouvement,&pospers, &image);
+              mvt_clavier (event.key.keysym.sym, &bg,imageDeFondCollision,&positionpers,&mouvement,&pospers, &image, &vit1, &vit2, &vit3, &vit4,&ok,&positionennemi,&dir,&quit,&save);
+              //mvt_arduino (&bg,imageDeFondCollision,&positionpers,&mouvement,&pospers, &image);
         }
       }
   }
@@ -109,8 +119,6 @@ int main( int argc, char* args[] )
               S = WAITING;
               UpdateEnnemi(S,&positionennemi,dir);
             }
-        if(reun==0)
-        {
         apply_surface( bg.x, bg.y, background, fenetre );
         apply_surface( positionpers.x, positionpers.y, image, fenetre );
         //SDL_BlitSurface(texte, NULL, fenetre, &positiontexte);
@@ -121,7 +129,6 @@ int main( int argc, char* args[] )
         if( SDL_Flip( fenetre ) == -1 )
             return 1;
         SDL_FillRect(fenetre,NULL,0);
-      }
     }
     if (save==1)
   {
@@ -137,10 +144,11 @@ FILE *f=fopen("chemin","w");
         fprintf(f,"%d %d %d",score,bgX,bgY);
     
   }
+    SDL_FreeSurface(ennemi);
     clean_up(&background,&image);
     //SDL_FreeSurface( background );
     //SDL_FreeSurface( texte );
     //SDL_FreeSurface( image );
-    SDL_FreeSurface(ennemi);
     //return 0;
+    }
 }

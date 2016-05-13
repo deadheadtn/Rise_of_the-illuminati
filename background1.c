@@ -267,6 +267,7 @@ void option()
           {
               case SDL_QUIT : 
                    ok=0 ;
+                   *action=5;
                    break;
               case SDL_KEYDOWN:
               {
